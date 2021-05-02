@@ -279,13 +279,13 @@ class StatusBarItemControler: NSObject, NSMenuDelegate {
         self.statusItemMenu.addItem(createEventItem)
 
         let quickActionsItem = self.statusItemMenu.addItem(
-            withTitle: "Quick Actions",
+            withTitle: "status_bar_quick_actions".loco(),
             action: nil,
             keyEquivalent: ""
         )
         quickActionsItem.isEnabled = true
 
-        quickActionsItem.submenu = NSMenu(title: "Quick Actions")
+        quickActionsItem.submenu = NSMenu(title: "status_bar_quick_actions".loco())
 
         let joinFromClipboard = UserActions.instance.joinFromClipboard
         let openLinkFromClipboardItem = NSMenuItem()
@@ -538,7 +538,7 @@ class StatusBarItemControler: NSObject, NSMenuDelegate {
      * try  to get the correct image for the specific
      */
     func getMeetingIcon(_ event: EKEvent) -> NSImage {
-        let result = getMeetingLink(event, acceptAnyLink: Defaults[.nonAllDayEvents] == NonAlldayEventsAppereance.show || Defaults[.nonAllDayEvents] == NonAlldayEventsAppereance.hide_without_any_link || Defaults[.nonAllDayEvents] == NonAlldayEventsAppereance.show_inactive_without_any_link)
+        let result = getMeetingLink(event)
 
         return getMeetingIconForLink(result)
     }
@@ -621,15 +621,7 @@ class StatusBarItemControler: NSObject, NSMenuDelegate {
         }
 
         if !event.isAllDay && Defaults[.nonAllDayEvents] == NonAlldayEventsAppereance.show_inactive_without_meeting_link {
-            let meetingLink = getMeetingLink(event, acceptAnyLink: false)
-            if meetingLink == nil {
-                styles[NSAttributedString.Key.foregroundColor] = NSColor.disabledControlTextColor
-                shouldShowAsActive = false
-            }
-        }
-
-        if !event.isAllDay && Defaults[.nonAllDayEvents] == NonAlldayEventsAppereance.show_inactive_without_any_link {
-            let meetingLink = getMeetingLink(event, acceptAnyLink: true)
+            let meetingLink = getMeetingLink(event)
             if meetingLink == nil {
                 styles[NSAttributedString.Key.foregroundColor] = NSColor.disabledControlTextColor
                 shouldShowAsActive = false
@@ -839,7 +831,7 @@ class StatusBarItemControler: NSObject, NSMenuDelegate {
 
             // Open in fanctastical if fantastical is installed
             if isFantasticalInstalled() {
-                let fantasticalItem = eventMenu.addItem(withTitle: "Open in Fantastical", action: #selector(AppDelegate.openEventInFantastical), keyEquivalent: "")
+                let fantasticalItem = eventMenu.addItem(withTitle: "status_bar_submenu_open_in_fantastical".loco(), action: #selector(AppDelegate.openEventInFantastical), keyEquivalent: "")
                 fantasticalItem.representedObject = EventWithDate(event: event, dateSection: dateSection)
             }
         } else {
@@ -858,7 +850,7 @@ class StatusBarItemControler: NSObject, NSMenuDelegate {
     func createPreferencesSection() {
         if removePatchVerion(Defaults[.appVersion]) > removePatchVerion(Defaults[.lastRevisedVersionInChangelog]) {
             let changelogItem = self.statusItemMenu.addItem(
-                withTitle: "What's new?",
+                withTitle: "status_bar_whats_new".loco(),
                 action: #selector(AppDelegate.openChangelogWindow),
                 keyEquivalent: ""
             )
@@ -899,7 +891,7 @@ func shortenTitleForSystembar(title: String?) -> String {
 }
 
 func shortenTitleForMenu(title: String?) -> String {
-    var eventTitle = String(title ?? "No title").trimmingCharacters(in: TitleTruncationRules.excludeAtEnds)
+    var eventTitle = String(title ?? "status_bar_no_title".loco()).trimmingCharacters(in: TitleTruncationRules.excludeAtEnds)
     if eventTitle.count > Int(Defaults[.menuEventTitleLength]) {
         let index = eventTitle.index(eventTitle.startIndex, offsetBy: Int(Defaults[.menuEventTitleLength]) - 1)
         eventTitle = String(eventTitle[...index]).trimmingCharacters(in: TitleTruncationRules.excludeAtEnds)
