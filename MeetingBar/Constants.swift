@@ -73,6 +73,8 @@ enum CreateMeetingLinks {
     static var jam = URL(string: "https://jam.systems/new")!
     static var coscreen = URL(string: "https://cs.new")!
     static var gcalendar = URL(string: "https://calendar.google.com/calendar/u/0/r/eventedit")!
+    static var gcalendar_view = URL(string: "https://calendar.google.com/calendar/u/0/r/")!
+
     static var outlook_live = URL(string: "https://outlook.live.com/calendar/0/action/compose")!
     static var outlook_office365 = URL(string: "https://outlook.office365.com/calendar/0/action/compose")!
 }

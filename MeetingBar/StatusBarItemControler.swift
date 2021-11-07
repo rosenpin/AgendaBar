@@ -277,6 +277,13 @@ class StatusBarItemControler: NSObject, NSMenuDelegate {
         createEventItem.setShortcut(for: .createMeetingShortcut)
 
         statusItemMenu.addItem(createEventItem)
+        
+        let openGcal = NSMenuItem()
+        openGcal.title = "Google Calendar"
+        openGcal.action = #selector(AppDelegate.openGcal)
+        openGcal.keyEquivalent = ""
+
+        statusItemMenu.addItem(openGcal)
     }
 
     func createBookmarksSection() {

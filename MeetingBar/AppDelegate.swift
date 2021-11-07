@@ -485,6 +485,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
     }
 
     @objc
+    func openGcal(_: Any? = nil) {
+        let browser: Browser = Defaults[.browserForCreateMeeting]
+        openMeetingURL(nil, CreateMeetingLinks.gcalendar_view, browser)
+    }
+    
+    @objc
     func createMeeting(_: Any? = nil) {
         NSLog("Create meeting in \(Defaults[.createMeetingService].rawValue)")
         let browser: Browser = Defaults[.browserForCreateMeeting]
