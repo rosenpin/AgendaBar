@@ -270,25 +270,6 @@ class StatusBarItemControler: NSObject, NSMenuDelegate {
     }
 
     func createJoinSection() {
-        if !calendars.isEmpty {
-            if let nextEvent = eventStore.getNextEvent(calendars: calendars) {
-                let now = Date()
-                var itemTitle: String
-                if nextEvent.startDate < now {
-                    itemTitle = "status_bar_section_join_current_meeting".loco()
-                } else {
-                    itemTitle = "status_bar_section_join_next_meeting".loco()
-                }
-
-                let joinItem = statusItemMenu.addItem(
-                    withTitle: itemTitle,
-                    action: #selector(AppDelegate.joinNextMeeting),
-                    keyEquivalent: ""
-                )
-                joinItem.setShortcut(for: .joinEventShortcut)
-            }
-        }
-
         let createEventItem = NSMenuItem()
         createEventItem.title = "status_bar_section_join_create_meeting".loco()
         createEventItem.action = #selector(AppDelegate.createMeeting)
@@ -296,34 +277,6 @@ class StatusBarItemControler: NSObject, NSMenuDelegate {
         createEventItem.setShortcut(for: .createMeetingShortcut)
 
         statusItemMenu.addItem(createEventItem)
-
-        let quickActionsItem = statusItemMenu.addItem(
-            withTitle: "status_bar_quick_actions".loco(),
-            action: nil,
-            keyEquivalent: ""
-        )
-        quickActionsItem.isEnabled = true
-
-        quickActionsItem.submenu = NSMenu(title: "status_bar_quick_actions".loco())
-
-        let openLinkFromClipboardItem = NSMenuItem()
-        openLinkFromClipboardItem.title = "status_bar_section_join_from_clipboard".loco()
-        openLinkFromClipboardItem.action = #selector(AppDelegate.openLinkFromClipboard)
-        openLinkFromClipboardItem.keyEquivalent = ""
-        openLinkFromClipboardItem.setShortcut(for: .openClipboardShortcut)
-        quickActionsItem.submenu!.addItem(openLinkFromClipboardItem)
-
-        if Defaults[.eventTitleFormat] == .show {
-            let toggleMeetingTitleVisibilityItem = NSMenuItem()
-            if Defaults[.hideMeetingTitle] {
-                toggleMeetingTitleVisibilityItem.title = "status_bar_show_meeting_names".loco()
-            } else {
-                toggleMeetingTitleVisibilityItem.title = "status_bar_hide_meeting_names".loco()
-            }
-            toggleMeetingTitleVisibilityItem.action = #selector(AppDelegate.toggleMeetingTitleVisibility)
-            toggleMeetingTitleVisibilityItem.setShortcut(for: .toggleMeetingTitleVisibilityShortcut)
-            quickActionsItem.submenu!.addItem(toggleMeetingTitleVisibilityItem)
-        }
     }
 
     func createBookmarksSection() {
@@ -362,16 +315,7 @@ class StatusBarItemControler: NSObject, NSMenuDelegate {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "E, d MMM"
         dateFormatter.locale = I18N.instance.locale
-
-        let dateString = dateFormatter.string(from: date)
-        let dateTitle = "\(title) (\(dateString)):"
-        let titleItem = statusItemMenu.addItem(
-            withTitle: dateTitle,
-            action: nil,
-            keyEquivalent: ""
-        )
-        titleItem.attributedTitle = NSAttributedString(string: dateTitle, attributes: [NSAttributedString.Key.font: NSFont.boldSystemFont(ofSize: 13)])
-        titleItem.isEnabled = false
+        
 
         // Events
         let sortedEvents = events.sorted {
@@ -614,16 +558,17 @@ class StatusBarItemControler: NSObject, NSMenuDelegate {
 
         let itemTitle: String
         if Defaults[.showEventEndTime] {
-            itemTitle = "\(eventStartTime) \t \(eventEndTime) \t \(eventTitle)"
+            itemTitle = "\(eventTitle) \t \(eventStartTime) - \(eventEndTime)"
         } else {
-            itemTitle = "\(eventStartTime) \t \(eventTitle)"
+            itemTitle = "\(eventTitle) \t \(eventStartTime)"
         }
 
         // Event Item
 
         let eventItem = NSMenuItem()
         eventItem.title = itemTitle
-        eventItem.action = #selector(AppDelegate.clickOnEvent(sender:))
+        eventItem.action = #selector(AppDelegate.openEventInCalendar)
+        eventItem.representedObject = event.eventIdentifier
         eventItem.keyEquivalent = ""
 
         if Defaults[.showMeetingServiceIcon] {
@@ -713,7 +658,6 @@ class StatusBarItemControler: NSObject, NSMenuDelegate {
         }
 
         statusItemMenu.addItem(eventItem)
-        eventItem.representedObject = event
 
         if Defaults[.showEventDetails] {
             let eventMenu = NSMenu(title: "Item \(eventTitle) menu")
@@ -723,31 +667,6 @@ class StatusBarItemControler: NSObject, NSMenuDelegate {
             let titleItem = eventMenu.addItem(withTitle: event.title, action: nil, keyEquivalent: "")
             titleItem.attributedTitle = NSAttributedString(string: eventTitle, attributes: [NSAttributedString.Key.font: NSFont.boldSystemFont(ofSize: 15)])
             eventMenu.addItem(NSMenuItem.separator())
-
-            // Status
-            if eventParticipantStatus != nil {
-                var status: String
-                switch eventParticipantStatus {
-                case .accepted:
-                    status = "status_bar_submenu_status_accepted".loco()
-                case .declined:
-                    status = "status_bar_submenu_status_declined".loco()
-                case .tentative:
-                    status = "status_bar_submenu_status_tentative".loco()
-                case .pending:
-                    status = "status_bar_submenu_status_pending".loco()
-                case .unknown:
-                    status = "status_bar_submenu_status_unknown".loco()
-                default:
-                    if let eventStatus = eventParticipantStatus {
-                        status = "status_bar_submenu_status_default_extended".loco(String(describing: eventStatus))
-                    } else {
-                        status = "status_bar_submenu_status_default_simple".loco()
-                    }
-                }
-                eventMenu.addItem(withTitle: "status_bar_submenu_status_title".loco(status), action: nil, keyEquivalent: "")
-                eventMenu.addItem(NSMenuItem.separator())
-            }
 
             // Duration
             if !event.isAllDay {
@@ -843,14 +762,6 @@ class StatusBarItemControler: NSObject, NSMenuDelegate {
                 }
                 eventMenu.addItem(NSMenuItem.separator())
             }
-
-            // Copy meeting link
-            let copyLinkItem = eventMenu.addItem(withTitle: "status_bar_submenu_copy_meeting_link".loco(), action: #selector(AppDelegate.copyEventMeetingLink), keyEquivalent: "")
-            copyLinkItem.representedObject = event
-
-            // Send email
-            let emailItem = eventMenu.addItem(withTitle: "status_bar_submenu_email_attendees".loco(), action: #selector(AppDelegate.emailAttendees), keyEquivalent: "")
-            emailItem.representedObject = event
 
             // Open in App
             let openItem = eventMenu.addItem(withTitle: "status_bar_submenu_open_in_calendar".loco(), action: #selector(AppDelegate.openEventInCalendar), keyEquivalent: "")
