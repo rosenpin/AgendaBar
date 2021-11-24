@@ -78,6 +78,14 @@ struct ChangelogView: View {
                         Text("• Open the link from the event link field if the meeting service is not recognized")
                     }
                 }
+                if lastRevisedVersionInChangelog < "3.9.0" {
+                    Section(header: Text("Version 3.9.0")) {
+                        Text("🌍 Added translations into Hebrew")
+                        Text("• Advanced feature to filter out events by regex")
+                        Text("• Added integration with Zhumu/WeMeeting, Lark, and Feishu")
+                        Text("and small bug fixes")
+                    }
+                }
             }.listStyle(SidebarListStyle())
             Button("Close", action: close)
         }.padding()

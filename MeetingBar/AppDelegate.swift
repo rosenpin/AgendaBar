@@ -17,7 +17,7 @@ import ServiceManagement
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDelegate {
-    var statusBarItem: StatusBarItemControler!
+    var statusBarItem: StatusBarItemController!
 
     var selectedCalendarIDsObserver: DefaultsObservation?
     var showEventDetailsObserver: DefaultsObservation?
@@ -190,7 +190,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
     }
 
     func setup() {
-        statusBarItem = StatusBarItemControler()
+        statusBarItem = StatusBarItemController()
         statusBarItem.setAppDelegate(appdelegate: self)
 
         registerNotificationCategories()
@@ -536,7 +536,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
                 return
             }
             NSLog("Bookmark url: \(bookmark.url)")
-            openMeetingURL(bookmark.service, url, systemDefaultBrowser)
+            openMeetingURL(bookmark.service, url, nil)
         }
     }
 

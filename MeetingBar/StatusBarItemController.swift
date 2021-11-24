@@ -1,5 +1,5 @@
 //
-//  StatusBarItemControler.swift
+//  StatusBarItemController.swift
 //  MeetingBar
 //
 //  Created by Andrii Leitsius on 12.06.2020.
@@ -15,10 +15,11 @@ import KeyboardShortcuts
 /**
  * creates the menu in the system status bar, creates the menu items and controls the whole lifecycle.
  */
-class StatusBarItemControler: NSObject, NSMenuDelegate {
+class StatusBarItemController: NSObject, NSMenuDelegate {
     var statusItem: NSStatusItem!
     var statusItemMenu: NSMenu!
     var menuIsOpen = false
+    var currentStatusBarEvent: EKEvent?
 
     var eventStore: EKEventStore!
     var calendars: [EKCalendar] = []
@@ -162,6 +163,13 @@ class StatusBarItemControler: NSObject, NSMenuDelegate {
                     button.image = NSImage(named: Defaults[.eventTitleIconFormat].rawValue)!
                 default:
                     button.image = NSImage(named: "iconCalendar")
+                }
+            }
+
+            if currentStatusBarEvent?.eventIdentifier != nextEvent?.eventIdentifier {
+                if nextEvent == nil || (nextEvent!).startDate.timeIntervalSinceNow <= 0 {
+                    currentStatusBarEvent = nextEvent
+                    updateMenu()
                 }
             }
 
@@ -485,6 +493,21 @@ class StatusBarItemControler: NSObject, NSMenuDelegate {
             image!.size = NSSize(width: 16, height: 16)
 
         // tested and verified
+        case .some(.zhumu):
+            image = NSImage(named: "zhumu_icon")!
+            image!.size = NSSize(width: 16, height: 16)
+
+        // tested and verified
+        case .some(.lark):
+            image = NSImage(named: "lark_icon")!
+            image!.size = NSSize(width: 16, height: 16)
+
+        // tested and verified
+        case .some(.feishu):
+            image = NSImage(named: "feishu_icon")!
+            image!.size = NSSize(width: 16, height: 16)
+
+        // tested and verified
         case .none:
             image = NSImage(named: "no_online_session")!
             image!.size = NSSize(width: 16, height: 16)
@@ -548,9 +571,9 @@ class StatusBarItemControler: NSObject, NSMenuDelegate {
 
         switch Defaults[.timeFormat] {
         case .am_pm:
-            eventTimeFormatter.dateFormat = "hh:mm a"
+            eventTimeFormatter.dateFormat = "h:mm a"
         case .military:
-            eventTimeFormatter.dateFormat = "HH:mm"
+            eventTimeFormatter.dateFormat = "H:mm"
         }
 
         var eventStartTime = ""
