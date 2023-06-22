@@ -206,7 +206,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
                     }
                 }
             }
-        case NotificationEventTimeAction.untilStart.rawValue, UNNotificationDefaultActionIdentifier:
+      /*  case NotificationEventTimeAction.untilStart.rawValue, UNNotificationDefaultActionIdentifier:
             handleSnoozeEvent(response, NotificationEventTimeAction.untilStart)
         case NotificationEventTimeAction.fiveMinuteLater.rawValue, UNNotificationDefaultActionIdentifier:
             handleSnoozeEvent(response, NotificationEventTimeAction.fiveMinuteLater)
@@ -216,6 +216,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
             handleSnoozeEvent(response, NotificationEventTimeAction.fifteenMinuteLater)
         case NotificationEventTimeAction.thirtyMinuteLater.rawValue, UNNotificationDefaultActionIdentifier:
             handleSnoozeEvent(response, NotificationEventTimeAction.thirtyMinuteLater)
+        */
         default:
             break
         }
@@ -347,12 +348,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, UNUserNotificationCenterDele
             GCEventStore.shared
                 .currentAuthorizationFlow?.resumeExternalUserAgentFlow(with: url)
         }
-    }
-    
-    @objc
-    func openGcal(_: Any? = nil) {
-        let browser: Browser = Defaults[.browserForCreateMeeting]
-        openMeetingURL(nil, CreateMeetingLinks.gcalendar_view, browser)
     }
 
     @objc

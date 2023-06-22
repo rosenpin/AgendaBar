@@ -297,54 +297,6 @@ class StatusBarItemController {
         createPreferencesSection()
     }
 
-    func createJoinSection() {
-        let createEventItem = NSMenuItem()
-        createEventItem.title = "status_bar_section_join_create_meeting".loco()
-        createEventItem.action = #selector(AppDelegate.createMeeting)
-        createEventItem.keyEquivalent = ""
-        createEventItem.setShortcut(for: .createMeetingShortcut)
-
-        statusItemMenu.addItem(createEventItem)
-        
-        let openGcal = NSMenuItem()
-        openGcal.title = "Google Calendar"
-        openGcal.action = #selector(AppDelegate.openGcal)
-        openGcal.keyEquivalent = ""
-
-        statusItemMenu.addItem(openGcal)
-    }
-
-    func createBookmarksSection() {
-        let bookmarksItem = statusItemMenu.addItem(
-            withTitle: "status_bar_section_bookmarks_title".loco(),
-            action: nil,
-            keyEquivalent: ""
-        )
-
-        var bookmarksMenu: NSMenu
-
-        if Defaults[.bookmarks].count > 3 {
-            bookmarksMenu = NSMenu(title: "status_bar_section_bookmarks_menu".loco())
-            bookmarksItem.submenu = bookmarksMenu
-        } else {
-            bookmarksItem.attributedTitle = NSAttributedString(string: "status_bar_section_bookmarks_title".loco(), attributes: [NSAttributedString.Key.font: NSFont.boldSystemFont(ofSize: 13)])
-            bookmarksItem.isEnabled = false
-            bookmarksMenu = statusItemMenu
-        }
-
-        for bookmark in Defaults[.bookmarks] {
-            let bookmarkItem = bookmarksMenu.addItem(
-                withTitle: bookmark.name,
-                action: #selector(AppDelegate.joinBookmark),
-                keyEquivalent: ""
-            )
-
-            bookmarkItem.representedObject = bookmark
-        }
-    }
-
-    func createDateSection(date: Date, title: String) {
-        let events: [EKEvent] = eventStore.loadEventsForDate(calendars: calendars, date: date)
     /*
      * -----------------------
      * MARK: - Section: Date
@@ -356,7 +308,16 @@ class StatusBarItemController {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "E, d MMM"
         dateFormatter.locale = I18N.instance.locale
-        
+
+        let dateString = dateFormatter.string(from: date)
+        let dateTitle = "\(title) (\(dateString)):"
+        let titleItem = statusItemMenu.addItem(
+            withTitle: dateTitle,
+            action: nil,
+            keyEquivalent: ""
+        )
+        titleItem.attributedTitle = NSAttributedString(string: dateTitle, attributes: [NSAttributedString.Key.font: NSFont.boldSystemFont(ofSize: 13)])
+        titleItem.isEnabled = false
 
         // Events
         let sortedEvents = events.sorted {
@@ -439,8 +400,8 @@ class StatusBarItemController {
 
         let eventItem = NSMenuItem()
         eventItem.title = itemTitle
-        eventItem.action = #selector(AppDelegate.openEventInCalendar)
-        eventItem.representedObject = event.eventIdentifier
+        eventItem.action = #selector(clickOnEvent(sender:))
+        eventItem.target = self
         eventItem.keyEquivalent = ""
 
         if Defaults[.showMeetingServiceIcon] {
@@ -529,6 +490,7 @@ class StatusBarItemController {
         }
 
         statusItemMenu.addItem(eventItem)
+        eventItem.representedObject = event
 
         if Defaults[.showEventDetails] {
             let eventMenu = NSMenu(title: "Item \(eventTitle) menu")
@@ -634,6 +596,16 @@ class StatusBarItemController {
                 eventMenu.addItem(NSMenuItem.separator())
             }
 
+            // Copy meeting link
+            let copyLinkItem = eventMenu.addItem(withTitle: "status_bar_submenu_copy_meeting_link".loco(), action: #selector(copyEventMeetingLink), keyEquivalent: "")
+            copyLinkItem.target = self
+            copyLinkItem.representedObject = event
+
+            // Send email
+            let emailItem = eventMenu.addItem(withTitle: "status_bar_submenu_email_attendees".loco(), action: #selector(emailAttendees), keyEquivalent: "")
+            emailItem.target = self
+            emailItem.representedObject = event
+
             // Open in App
             let openItem = eventMenu.addItem(withTitle: "status_bar_submenu_open_in_calendar".loco(), action: #selector(openEventInCalendar), keyEquivalent: "")
             openItem.target = self
@@ -690,6 +662,13 @@ class StatusBarItemController {
         createEventItem.setShortcut(for: .createMeetingShortcut)
 
         statusItemMenu.addItem(createEventItem)
+
+        let openGcal = NSMenuItem()
+        openGcal.title = "Google Calendar"
+        // openGcal.action = #selector(AppDelegate.openGcal)
+        openGcal.keyEquivalent = ""
+
+        statusItemMenu.addItem(openGcal)
 
         // MENU ITEM: Quick actions menu
         let quickActionsItem = statusItemMenu.addItem(
