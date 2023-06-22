@@ -3,14 +3,15 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		01044AE127EA695A0070512E /* ActionsOnEventStart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01044AE027EA695A0070512E /* ActionsOnEventStart.swift */; };
 		140D84322493A3FE0055E1CE /* StatusBarItemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140D84312493A3FE0055E1CE /* StatusBarItemController.swift */; };
 		140D84342493A4180055E1CE /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140D84332493A4180055E1CE /* Constants.swift */; };
 		140D843A2493A6240055E1CE /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140D84392493A6240055E1CE /* Helpers.swift */; };
-		140D843D2493B7BF0055E1CE /* EventStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140D843C2493B7BF0055E1CE /* EventStore.swift */; };
+		140D843D2493B7BF0055E1CE /* EKEventStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140D843C2493B7BF0055E1CE /* EKEventStore.swift */; };
 		140D843F2493B7CB0055E1CE /* DefaultsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140D843E2493B7CB0055E1CE /* DefaultsKeys.swift */; };
 		140D84412493B8030055E1CE /* KeyboardShortcutsNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140D84402493B8030055E1CE /* KeyboardShortcutsNames.swift */; };
 		1418907C26F23CCD00DCD9B1 /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = 1418907B26F23CCD00DCD9B1 /* KeyboardShortcuts */; };
@@ -31,20 +32,29 @@
 		1452C9D825AF889A00C46CDF /* WelcomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1452C9D725AF889A00C46CDF /* WelcomeScreen.swift */; };
 		1452C9DC25AF88EF00C46CDF /* AccessScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1452C9DB25AF88EF00C46CDF /* AccessScreen.swift */; };
 		1452C9E025AF894E00C46CDF /* CalendarsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1452C9DF25AF894E00C46CDF /* CalendarsScreen.swift */; };
-		14619A1E25EC26DF00F3098F /* HelpersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14619A1D25EC26DF00F3098F /* HelpersTests.swift */; };
+		14619A1E25EC26DF00F3098F /* MeetingServicesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14619A1D25EC26DF00F3098F /* MeetingServicesTests.swift */; };
 		14879B2B24E6889C00DB0A7E /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14879B2A24E6889C00DB0A7E /* Notifications.swift */; };
 		148E47E824F400C400399929 /* Onboarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148E47E724F400C400399929 /* Onboarding.swift */; };
-		14C59B8525CF45340019C9E4 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C59B8425CF45340019C9E4 /* Store.swift */; };
+		14B08ACE2749A57B002E3892 /* GTMAppAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 14B08ACD2749A57B002E3892 /* GTMAppAuth */; };
+		14B08AD02749AB96002E3892 /* GCEventStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B08ACF2749AB96002E3892 /* GCEventStore.swift */; };
+		14B08AD42749AEF3002E3892 /* PromiseKit in Frameworks */ = {isa = PBXBuildFile; productRef = 14B08AD32749AEF3002E3892 /* PromiseKit */; };
+		14C59B8525CF45340019C9E4 /* AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C59B8425CF45340019C9E4 /* AppStore.swift */; };
 		14E4110E246F2F9200F73ACF /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E4110D246F2F9200F73ACF /* Preferences.swift */; };
 		1BF37A9A2604C8960053D53C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1BF37A9C2604C8960053D53C /* Localizable.strings */; };
 		1BF37AA52604F7E00053D53C /* I18N.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF37AA42604F7E00053D53C /* I18N.swift */; };
-		40DC7043250E5B9C00217DD9 /* AutoLauncherAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40DC7042250E5B9C00217DD9 /* AutoLauncherAppDelegate.swift */; };
-		40DC7051250E5DB500217DD9 /* AutoLauncher.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 40DC7040250E5B9C00217DD9 /* AutoLauncher.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		40DC7054250E5E1000217DD9 /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40DC7053250E5E1000217DD9 /* ServiceManagement.framework */; };
-		40E60313250E81EA005986C7 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E60312250E81EA005986C7 /* main.swift */; };
+		4616E3A729BB62D100665FE0 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 4616E3A629BB62D100665FE0 /* LaunchAtLogin */; };
+		4654E66227F24A3F001848AB /* Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4654E66127F24A3F001848AB /* Protocol.swift */; };
+		4672B58229C130160055E7D7 /* AppIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4672B58129C130160055E7D7 /* AppIntent.swift */; };
+		467351B729057BC900EE3987 /* StringExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467351B629057BC900EE3987 /* StringExtensionsTests.swift */; };
+		46E4794C2801D53B00B48059 /* MeetingServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E4794B2801D53B00B48059 /* MeetingServices.swift */; };
+		46E4794E2802141800B48059 /* Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E4794D2802141800B48059 /* Calendar.swift */; };
+		46E479502802155700B48059 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E4794F2802155700B48059 /* Event.swift */; };
+		46E4795228023A0C00B48059 /* HelpersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E4795128023A0C00B48059 /* HelpersTests.swift */; };
 		A7B68FA325CDE9E200CA3A68 /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B68FA225CDE9E200CA3A68 /* URL.swift */; };
 		E23954682628BF89003ECCB3 /* BrowserConfigView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23954672628BF89003ECCB3 /* BrowserConfigView.swift */; };
 		E249D534259BBC3800429BF1 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = E249D533259BBC3800429BF1 /* String.swift */; };
+		E26A0BFC263449E300F117A9 /* Scripts.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26A0BFB263449E300F117A9 /* Scripts.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,24 +67,12 @@
 		};
 /* End PBXContainerItemProxy section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		40DC7050250E5D8D00217DD9 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = Contents/Library/LoginItems;
-			dstSubfolderSpec = 1;
-			files = (
-				40DC7051250E5DB500217DD9 /* AutoLauncher.app in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
+		01044AE027EA695A0070512E /* ActionsOnEventStart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionsOnEventStart.swift; sourceTree = "<group>"; };
 		140D84312493A3FE0055E1CE /* StatusBarItemController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarItemController.swift; sourceTree = "<group>"; };
 		140D84332493A4180055E1CE /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		140D84392493A6240055E1CE /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
-		140D843C2493B7BF0055E1CE /* EventStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventStore.swift; sourceTree = "<group>"; };
+		140D843C2493B7BF0055E1CE /* EKEventStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EKEventStore.swift; sourceTree = "<group>"; };
 		140D843E2493B7CB0055E1CE /* DefaultsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultsKeys.swift; sourceTree = "<group>"; };
 		140D84402493B8030055E1CE /* KeyboardShortcutsNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardShortcutsNames.swift; sourceTree = "<group>"; };
 		14158D3A246C65AD0006436C /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -99,12 +97,13 @@
 		1452C9DB25AF88EF00C46CDF /* AccessScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessScreen.swift; sourceTree = "<group>"; };
 		1452C9DF25AF894E00C46CDF /* CalendarsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarsScreen.swift; sourceTree = "<group>"; };
 		14619A1B25EC26DF00F3098F /* MeetingBarTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MeetingBarTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		14619A1D25EC26DF00F3098F /* HelpersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpersTests.swift; sourceTree = "<group>"; };
+		14619A1D25EC26DF00F3098F /* MeetingServicesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingServicesTests.swift; sourceTree = "<group>"; };
 		14619A1F25EC26DF00F3098F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		14879B2A24E6889C00DB0A7E /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		148E47E724F400C400399929 /* Onboarding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Onboarding.swift; sourceTree = "<group>"; };
 		14B08ACB27498308002E3892 /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/Localizable.strings; sourceTree = "<group>"; };
-		14C59B8425CF45340019C9E4 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
+		14B08ACF2749AB96002E3892 /* GCEventStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GCEventStore.swift; sourceTree = "<group>"; };
+		14C59B8425CF45340019C9E4 /* AppStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStore.swift; sourceTree = "<group>"; };
 		14C9A928269A2083005306DA /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		14C9A929269A2095005306DA /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		14C9A92A269A209C005306DA /* hr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hr; path = hr.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -112,18 +111,22 @@
 		14E4110D246F2F9200F73ACF /* Preferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 		14E8DD85262A476600952FC2 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1BF37A9B2604C8960053D53C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		1BF37AA02604C8A50053D53C /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1BF37AA42604F7E00053D53C /* I18N.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = I18N.swift; sourceTree = "<group>"; };
-		40DC7040250E5B9C00217DD9 /* AutoLauncher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AutoLauncher.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		40DC7042250E5B9C00217DD9 /* AutoLauncherAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoLauncherAppDelegate.swift; sourceTree = "<group>"; };
-		40DC704B250E5BB100217DD9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		40DC704C250E5BB100217DD9 /* AutoLauncher.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AutoLauncher.entitlements; sourceTree = "<group>"; };
 		40DC7053250E5E1000217DD9 /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
-		40E60312250E81EA005986C7 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		4654E66127F24A3F001848AB /* Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocol.swift; sourceTree = "<group>"; };
+		4672B58129C130160055E7D7 /* AppIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntent.swift; sourceTree = "<group>"; };
+		467351B629057BC900EE3987 /* StringExtensionsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensionsTests.swift; sourceTree = "<group>"; };
+		46E4794B2801D53B00B48059 /* MeetingServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingServices.swift; sourceTree = "<group>"; };
+		46E4794D2802141800B48059 /* Calendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calendar.swift; sourceTree = "<group>"; };
+		46E4794F2802155700B48059 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		46E4795128023A0C00B48059 /* HelpersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpersTests.swift; sourceTree = "<group>"; };
 		A7B68FA225CDE9E200CA3A68 /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
+		D6D68C5327BCF93D009E8469 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 		E23954672628BF89003ECCB3 /* BrowserConfigView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowserConfigView.swift; sourceTree = "<group>"; };
 		E249D533259BBC3800429BF1 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		E26A0BFB263449E300F117A9 /* Scripts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scripts.swift; sourceTree = "<group>"; };
 		E2AE715525AA54A600D3C7CF /* DevTeamOverride.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = DevTeamOverride.xcconfig; sourceTree = "<group>"; };
+		E48FB770279B3A820071CC5A /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		E4DD0F0A2529D0D20029E395 /* Project-Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Project-Release.xcconfig"; sourceTree = "<group>"; };
 		E4DD0F0B2529D0D20029E395 /* Project.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Project.xcconfig; sourceTree = "<group>"; };
 		E4DD0F0C2529D0D20029E395 /* Project-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Project-Debug.xcconfig"; sourceTree = "<group>"; };
@@ -136,6 +139,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				40DC7054250E5E1000217DD9 /* ServiceManagement.framework in Frameworks */,
+				14B08AD42749AEF3002E3892 /* PromiseKit in Frameworks */,
+				4616E3A729BB62D100665FE0 /* LaunchAtLogin in Frameworks */,
+				14B08ACE2749A57B002E3892 /* GTMAppAuth in Frameworks */,
 				1418907C26F23CCD00DCD9B1 /* KeyboardShortcuts in Frameworks */,
 				1432D98C25C4B94900FD121D /* SwiftyStoreKit in Frameworks */,
 				1418907F26F23CF600DCD9B1 /* Defaults in Frameworks */,
@@ -143,13 +149,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		14619A1825EC26DF00F3098F /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		40DC703D250E5B9C00217DD9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -173,7 +172,6 @@
 				14158D3A246C65AD0006436C /* README.md */,
 				E4DD0F092529D0D20029E395 /* XCConfig */,
 				144C017B2462D0C3000C9FFC /* MeetingBar */,
-				40DC7041250E5B9C00217DD9 /* AutoLauncher */,
 				14619A1C25EC26DF00F3098F /* MeetingBarTests */,
 				144C017A2462D0C3000C9FFC /* Products */,
 				40DC7052250E5E1000217DD9 /* Frameworks */,
@@ -184,7 +182,6 @@
 			isa = PBXGroup;
 			children = (
 				144C01792462D0C3000C9FFC /* MeetingBar.app */,
-				40DC7040250E5B9C00217DD9 /* AutoLauncher.app */,
 				14619A1B25EC26DF00F3098F /* MeetingBarTests.xctest */,
 			);
 			name = Products;
@@ -193,14 +190,18 @@
 		144C017B2462D0C3000C9FFC /* MeetingBar */ = {
 			isa = PBXGroup;
 			children = (
+				E26A0BFB263449E300F117A9 /* Scripts.swift */,
+				4672B58129C130160055E7D7 /* AppIntent.swift */,
 				1BF37A902604C8050053D53C /* Resources  */,
 				144C017C2462D0C3000C9FFC /* AppDelegate.swift */,
 				1452C9AD25AF5B1000C46CDF /* Views */,
 				140D84312493A3FE0055E1CE /* StatusBarItemController.swift */,
 				140D84332493A4180055E1CE /* Constants.swift */,
-				14C59B8425CF45340019C9E4 /* Store.swift */,
+				14C59B8425CF45340019C9E4 /* AppStore.swift */,
 				140D84392493A6240055E1CE /* Helpers.swift */,
 				14879B2A24E6889C00DB0A7E /* Notifications.swift */,
+				46E4794B2801D53B00B48059 /* MeetingServices.swift */,
+				46E4794A2801D4BD00B48059 /* EventStores */,
 				149AD20F25A8967C004976F1 /* Extensions */,
 				144C01822462D0C5000C9FFC /* Preview Content */,
 				144C01852462D0C5000C9FFC /* Main.storyboard */,
@@ -208,6 +209,7 @@
 				144C01802462D0C5000C9FFC /* Assets.xcassets */,
 				144C01892462D0C5000C9FFC /* MeetingBar.entitlements */,
 				1BF37AA42604F7E00053D53C /* I18N.swift */,
+				01044AE027EA695A0070512E /* ActionsOnEventStart.swift */,
 			);
 			path = MeetingBar;
 			sourceTree = "<group>";
@@ -260,7 +262,9 @@
 		14619A1C25EC26DF00F3098F /* MeetingBarTests */ = {
 			isa = PBXGroup;
 			children = (
-				14619A1D25EC26DF00F3098F /* HelpersTests.swift */,
+				14619A1D25EC26DF00F3098F /* MeetingServicesTests.swift */,
+				467351B629057BC900EE3987 /* StringExtensionsTests.swift */,
+				46E4795128023A0C00B48059 /* HelpersTests.swift */,
 				14619A1F25EC26DF00F3098F /* Info.plist */,
 			);
 			path = MeetingBarTests;
@@ -269,7 +273,6 @@
 		149AD20F25A8967C004976F1 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				140D843C2493B7BF0055E1CE /* EventStore.swift */,
 				140D84402493B8030055E1CE /* KeyboardShortcutsNames.swift */,
 				140D843E2493B7CB0055E1CE /* DefaultsKeys.swift */,
 				E249D533259BBC3800429BF1 /* String.swift */,
@@ -294,23 +297,24 @@
 			path = "Localization ";
 			sourceTree = "<group>";
 		};
-		40DC7041250E5B9C00217DD9 /* AutoLauncher */ = {
-			isa = PBXGroup;
-			children = (
-				40DC7042250E5B9C00217DD9 /* AutoLauncherAppDelegate.swift */,
-				40DC704B250E5BB100217DD9 /* Info.plist */,
-				40DC704C250E5BB100217DD9 /* AutoLauncher.entitlements */,
-				40E60312250E81EA005986C7 /* main.swift */,
-			);
-			path = AutoLauncher;
-			sourceTree = "<group>";
-		};
 		40DC7052250E5E1000217DD9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				40DC7053250E5E1000217DD9 /* ServiceManagement.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		46E4794A2801D4BD00B48059 /* EventStores */ = {
+			isa = PBXGroup;
+			children = (
+				140D843C2493B7BF0055E1CE /* EKEventStore.swift */,
+				14B08ACF2749AB96002E3892 /* GCEventStore.swift */,
+				4654E66127F24A3F001848AB /* Protocol.swift */,
+				46E4794D2802141800B48059 /* Calendar.swift */,
+				46E4794F2802155700B48059 /* Event.swift */,
+			);
+			path = EventStores;
 			sourceTree = "<group>";
 		};
 		E4DD0F092529D0D20029E395 /* XCConfig */ = {
@@ -334,7 +338,8 @@
 				144C01752462D0C3000C9FFC /* Sources */,
 				144C01762462D0C3000C9FFC /* Frameworks */,
 				144C01772462D0C3000C9FFC /* Resources */,
-				40DC7050250E5D8D00217DD9 /* CopyFiles */,
+				4616E3A829BB62F900665FE0 /* Copy “Launch at Login Helper” */,
+				467351B529055E9900EE3987 /* Run Script */,
 			);
 			buildRules = (
 			);
@@ -345,6 +350,9 @@
 				1432D98B25C4B94900FD121D /* SwiftyStoreKit */,
 				1418907B26F23CCD00DCD9B1 /* KeyboardShortcuts */,
 				1418907E26F23CF600DCD9B1 /* Defaults */,
+				14B08ACD2749A57B002E3892 /* GTMAppAuth */,
+				14B08AD32749AEF3002E3892 /* PromiseKit */,
+				4616E3A629BB62D100665FE0 /* LaunchAtLogin */,
 			);
 			productName = MeetingBar;
 			productReference = 144C01792462D0C3000C9FFC /* MeetingBar.app */;
@@ -368,31 +376,14 @@
 			productReference = 14619A1B25EC26DF00F3098F /* MeetingBarTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		40DC703F250E5B9C00217DD9 /* AutoLauncher */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 40DC704F250E5BB100217DD9 /* Build configuration list for PBXNativeTarget "AutoLauncher" */;
-			buildPhases = (
-				40DC703C250E5B9C00217DD9 /* Sources */,
-				40DC703D250E5B9C00217DD9 /* Frameworks */,
-				40DC703E250E5B9C00217DD9 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = AutoLauncher;
-			productName = AutoLauncher;
-			productReference = 40DC7040250E5B9C00217DD9 /* AutoLauncher.app */;
-			productType = "com.apple.product-type.application";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		144C01712462D0C3000C9FFC /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1240;
-				LastUpgradeCheck = 1140;
+				LastSwiftUpdateCheck = 1420;
+				LastUpgradeCheck = 1400;
 				ORGANIZATIONNAME = "Andrii Leitsius";
 				TargetAttributes = {
 					144C01782462D0C3000C9FFC = {
@@ -401,9 +392,6 @@
 					14619A1A25EC26DF00F3098F = {
 						CreatedOnToolsVersion = 12.4;
 						TestTargetID = 144C01782462D0C3000C9FFC;
-					};
-					40DC703F250E5B9C00217DD9 = {
-						CreatedOnToolsVersion = 11.5;
 					};
 				};
 			};
@@ -414,7 +402,6 @@
 			knownRegions = (
 				en,
 				Base,
-				ru,
 				uk,
 				de,
 				fr,
@@ -424,19 +411,23 @@
 				ja,
 				pl,
 				he,
+				tr,
+				it,
 			);
 			mainGroup = 144C01702462D0C3000C9FFC;
 			packageReferences = (
 				1432D98A25C4B94900FD121D /* XCRemoteSwiftPackageReference "SwiftyStoreKit" */,
 				1418907A26F23CCD00DCD9B1 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
 				1418907D26F23CF600DCD9B1 /* XCRemoteSwiftPackageReference "Defaults" */,
+				14B08ACC2749A57B002E3892 /* XCRemoteSwiftPackageReference "GTMAppAuth" */,
+				14B08AD22749AEF3002E3892 /* XCRemoteSwiftPackageReference "PromiseKit" */,
+				4616E3A529BB62D100665FE0 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */,
 			);
 			productRefGroup = 144C017A2462D0C3000C9FFC /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				144C01782462D0C3000C9FFC /* MeetingBar */,
-				40DC703F250E5B9C00217DD9 /* AutoLauncher */,
 				14619A1A25EC26DF00F3098F /* MeetingBarTests */,
 			);
 		};
@@ -461,14 +452,48 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		40DC703E250E5B9C00217DD9 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		4616E3A829BB62F900665FE0 /* Copy “Launch at Login Helper” */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Copy “Launch at Login Helper”";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
 			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${BUILT_PRODUCTS_DIR}/LaunchAtLogin_LaunchAtLogin.bundle/Contents/Resources/copy-helper-swiftpm.sh\"\n";
 		};
-/* End PBXResourcesBuildPhase section */
+		467351B529055E9900EE3987 /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nexport PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftlint > /dev/null; then\n  swiftlint --fix && swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		144C01752462D0C3000C9FFC /* Sources */ = {
@@ -481,25 +506,33 @@
 				1452C9D225AF86E700C46CDF /* AdvancedTab.swift in Sources */,
 				A7B68FA325CDE9E200CA3A68 /* URL.swift in Sources */,
 				1452C9DC25AF88EF00C46CDF /* AccessScreen.swift in Sources */,
-				14C59B8525CF45340019C9E4 /* Store.swift in Sources */,
+				14C59B8525CF45340019C9E4 /* AppStore.swift in Sources */,
 				1452C9C625AF85B400C46CDF /* ServicesTab.swift in Sources */,
 				140D843F2493B7CB0055E1CE /* DefaultsKeys.swift in Sources */,
 				1BF37AA52604F7E00053D53C /* I18N.swift in Sources */,
 				E249D534259BBC3800429BF1 /* String.swift in Sources */,
+				46E4794C2801D53B00B48059 /* MeetingServices.swift in Sources */,
 				140D843A2493A6240055E1CE /* Helpers.swift in Sources */,
+				46E479502802155700B48059 /* Event.swift in Sources */,
+				E26A0BFC263449E300F117A9 /* Scripts.swift in Sources */,
 				144C017D2462D0C3000C9FFC /* AppDelegate.swift in Sources */,
 				1452C9C225AF854000C46CDF /* AppearanceTab.swift in Sources */,
+				4672B58229C130160055E7D7 /* AppIntent.swift in Sources */,
 				1452C9B525AF5CE700C46CDF /* GeneralTab.swift in Sources */,
 				148E47E824F400C400399929 /* Onboarding.swift in Sources */,
 				14879B2B24E6889C00DB0A7E /* Notifications.swift in Sources */,
 				E23954682628BF89003ECCB3 /* BrowserConfigView.swift in Sources */,
+				46E4794E2802141800B48059 /* Calendar.swift in Sources */,
 				1452C9E025AF894E00C46CDF /* CalendarsScreen.swift in Sources */,
 				140D84412493B8030055E1CE /* KeyboardShortcutsNames.swift in Sources */,
-				140D843D2493B7BF0055E1CE /* EventStore.swift in Sources */,
+				4654E66227F24A3F001848AB /* Protocol.swift in Sources */,
+				140D843D2493B7BF0055E1CE /* EKEventStore.swift in Sources */,
 				1452C9CE25AF868E00C46CDF /* CalendarsTab.swift in Sources */,
 				14E4110E246F2F9200F73ACF /* Preferences.swift in Sources */,
+				01044AE127EA695A0070512E /* ActionsOnEventStart.swift in Sources */,
 				1452C9CA25AF861300C46CDF /* BookmarksTab.swift in Sources */,
 				140D84322493A3FE0055E1CE /* StatusBarItemController.swift in Sources */,
+				14B08AD02749AB96002E3892 /* GCEventStore.swift in Sources */,
 				140D84342493A4180055E1CE /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -508,16 +541,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				14619A1E25EC26DF00F3098F /* HelpersTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		40DC703C250E5B9C00217DD9 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				40E60313250E81EA005986C7 /* main.swift in Sources */,
-				40DC7043250E5B9C00217DD9 /* AutoLauncherAppDelegate.swift in Sources */,
+				467351B729057BC900EE3987 /* StringExtensionsTests.swift in Sources */,
+				14619A1E25EC26DF00F3098F /* MeetingServicesTests.swift in Sources */,
+				46E4795228023A0C00B48059 /* HelpersTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -544,7 +570,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				1BF37A9B2604C8960053D53C /* en */,
-				1BF37AA02604C8A50053D53C /* ru */,
 				14E8DD85262A476600952FC2 /* uk */,
 				14C9A928269A2083005306DA /* de */,
 				14C9A929269A2095005306DA /* fr */,
@@ -554,6 +579,8 @@
 				EA04E13F26B2664F00D183B8 /* ja */,
 				14513C7726D697FB0026B40A /* pl */,
 				14B08ACB27498308002E3892 /* he */,
+				E48FB770279B3A820071CC5A /* tr */,
+				D6D68C5327BCF93D009E8469 /* it */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -597,6 +624,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_ASSET_PATHS = "";
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = NO;
@@ -662,6 +690,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "";
 				EMBED_ASSET_PACKS_IN_PRODUCT_BUNDLE = NO;
@@ -678,7 +707,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
@@ -688,23 +717,27 @@
 		144C018D2462D0C5000C9FFC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = MeetingBar/MeetingBar.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 126;
+				CURRENT_PROJECT_VERSION = 147;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = 3K28PQX45S;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = MeetingBar/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MeetingBar;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				MARKETING_VERSION = 3.9.0;
+				MARKETING_VERSION = 4.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = leits.MeetingBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -715,23 +748,27 @@
 		144C018E2462D0C5000C9FFC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = MeetingBar/MeetingBar.entitlements;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 126;
+				CURRENT_PROJECT_VERSION = 147;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = 3K28PQX45S;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = MeetingBar/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MeetingBar;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				MARKETING_VERSION = 3.9.0;
+				MARKETING_VERSION = 4.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = leits.MeetingBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -747,6 +784,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 3K28PQX45S;
+				DEAD_CODE_STRIPPING = YES;
 				INFOPLIST_FILE = MeetingBarTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -769,6 +807,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 3K28PQX45S;
+				DEAD_CODE_STRIPPING = YES;
 				INFOPLIST_FILE = MeetingBarTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -859,15 +898,6 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		40DC704F250E5BB100217DD9 /* Build configuration list for PBXNativeTarget "AutoLauncher" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				40DC704D250E5BB100217DD9 /* Debug */,
-				40DC704E250E5BB100217DD9 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
@@ -875,15 +905,15 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sindresorhus/KeyboardShortcuts";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.2.1;
+				kind = upToNextMinorVersion;
+				minimumVersion = 1.10.0;
 			};
 		};
 		1418907D26F23CF600DCD9B1 /* XCRemoteSwiftPackageReference "Defaults" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sindresorhus/Defaults";
 			requirement = {
-				kind = upToNextMajorVersion;
+				kind = upToNextMinorVersion;
 				minimumVersion = 4.2.2;
 			};
 		};
@@ -891,8 +921,32 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/bizz84/SwiftyStoreKit.git";
 			requirement = {
-				kind = upToNextMajorVersion;
+				kind = upToNextMinorVersion;
 				minimumVersion = 0.16.3;
+			};
+		};
+		14B08ACC2749A57B002E3892 /* XCRemoteSwiftPackageReference "GTMAppAuth" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GTMAppAuth";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 1.3.1;
+			};
+		};
+		14B08AD22749AEF3002E3892 /* XCRemoteSwiftPackageReference "PromiseKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mxcl/PromiseKit";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 6.16.2;
+			};
+		};
+		4616E3A529BB62D100665FE0 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/LaunchAtLogin";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -912,6 +966,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1432D98A25C4B94900FD121D /* XCRemoteSwiftPackageReference "SwiftyStoreKit" */;
 			productName = SwiftyStoreKit;
+		};
+		14B08ACD2749A57B002E3892 /* GTMAppAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 14B08ACC2749A57B002E3892 /* XCRemoteSwiftPackageReference "GTMAppAuth" */;
+			productName = GTMAppAuth;
+		};
+		14B08AD32749AEF3002E3892 /* PromiseKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 14B08AD22749AEF3002E3892 /* XCRemoteSwiftPackageReference "PromiseKit" */;
+			productName = PromiseKit;
+		};
+		4616E3A629BB62D100665FE0 /* LaunchAtLogin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4616E3A529BB62D100665FE0 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */;
+			productName = LaunchAtLogin;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

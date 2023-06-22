@@ -9,21 +9,18 @@ import AppKit
 import Cocoa
 import Defaults
 import EventKit
-
-struct EventWithDate {
-    let event: EKEvent
-    let dateSection: Date
-}
-
-struct MeetingLink: Equatable {
-    let service: MeetingServices?
-    var url: URL
-}
+import Foundation
 
 struct Bookmark: Encodable, Decodable, Hashable {
     var name: String
     var service: MeetingServices
-    var url: String
+    var url: URL
+}
+
+struct ProcessedEvent: Encodable, Decodable, Hashable {
+    var id: String
+    var lastModifiedDate: Date?
+    var eventEndDate: Date
 }
 
 /**
@@ -37,7 +34,8 @@ struct Bookmark: Encodable, Decodable, Hashable {
  * If no m365 links are found, the original text is returned.
  *
  */
-private func cleanupOutlookSafeLinks(text: inout String) -> String {
+func cleanupOutlookSafeLinks(rawText: String) -> String {
+    var text = rawText
     var links = UtilsRegex.outlookSafeLinkRegex.matches(in: text, range: NSRange(text.startIndex..., in: text))
     if !links.isEmpty {
         repeat {
@@ -45,7 +43,9 @@ private func cleanupOutlookSafeLinks(text: inout String) -> String {
             let safeLinks = links.map { String(text[Range($0.range, in: text)!]) }
             if !safeLinks.isEmpty {
                 let serviceUrl = (text as NSString).substring(with: urlRange)
-                text = text.replacingOccurrences(of: safeLinks[0], with: serviceUrl.decodeUrl()!)
+                if let decodedServiceURL = serviceUrl.decodeUrl() {
+                    text = text.replacingOccurrences(of: safeLinks[0], with: decodedServiceURL)
+                }
             }
             links = UtilsRegex.outlookSafeLinkRegex.matches(in: text, range: NSRange(text.startIndex..., in: text))
         } while !links.isEmpty
@@ -64,10 +64,6 @@ func getMatch(text: String, regex: NSRegularExpression) -> String? {
     return nil
 }
 
-func hasMatch(text: String, regex: NSRegularExpression) -> Bool {
-    return regex.firstMatch(in: text, range: NSRange(text.startIndex..., in: text)) != nil
-}
-
 func cleanUpNotes(_ notes: String) -> String {
     let zoomSeparator = "\n──────────"
     let meetSeparator = "-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-"
@@ -78,244 +74,10 @@ func cleanUpNotes(_ notes: String) -> String {
     return cleanNotes
 }
 
-func getRegexForService(_ service: MeetingServices) -> NSRegularExpression? {
-    let regexes = LinksRegex()
-    let mirror = Mirror(reflecting: regexes)
-
-    for child in mirror.children {
-        if child.label == String(describing: service) {
-            return child.value as? NSRegularExpression
-        }
-    }
-    return nil
+func compareVersions(_ versionX: String, _ versionY: String) -> Bool {
+    versionX.compare(versionY, options: .numeric) == .orderedDescending
 }
 
-func getGmailAccount(_ event: EKEvent) -> String? {
-    // Hacky and likely to break, but should work until Apple changes something
-    let regex = UtilsRegex.emailAddress
-    let text = event.calendar.source.description
-    let resultsIterator = regex.matches(in: text, range: NSRange(text.startIndex..., in: text))
-    let resultsMap = resultsIterator.map { String(text[Range($0.range(at: 1), in: text)!]) }
-    if !resultsMap.isEmpty {
-        return resultsMap.first
-    }
-    return nil
-}
-
-func detectLink(_ field: inout String) -> MeetingLink? {
-    _ = cleanupOutlookSafeLinks(text: &field)
-
-    for pattern in Defaults[.customRegexes] {
-        if let regex = try? NSRegularExpression(pattern: pattern) {
-            if let link = getMatch(text: field, regex: regex) {
-                if let url = URL(string: link) {
-                    return MeetingLink(service: MeetingServices.other, url: url)
-                }
-            }
-        }
-    }
-
-    for service in MeetingServices.allCases {
-        if let regex = getRegexForService(service) {
-            if let link = getMatch(text: field, regex: regex) {
-                if let url = URL(string: link) {
-                    return MeetingLink(service: service, url: url)
-                }
-            }
-        }
-    }
-    return nil
-}
-
-func shouldIncludeMeeting(_ event: EKEvent) -> Bool {
-    for pattern in Defaults[.filterEventRegexes] {
-        if let regex = try? NSRegularExpression(pattern: pattern) {
-            if hasMatch(text: event.title, regex: regex) {
-                return false
-            }
-        }
-    }
-    return true
-}
-
-/**
- * this method will collect text from the location, url and notes field of an event and try to find a known meeting url link.
- * As meeting links can be part of a outlook safe url, we will extract the original link from outlook safe links.
- */
-func getMeetingLink(_ event: EKEvent) -> MeetingLink? {
-    var linkFields: [String] = []
-
-    if let location = event.location {
-        linkFields.append(location)
-    }
-
-    if let url = event.url {
-        linkFields.append(url.absoluteString)
-    }
-
-    if let notes = event.notes {
-        linkFields.append(notes)
-    }
-
-    for var field in linkFields {
-        var meetingLink = detectLink(&field)
-        if meetingLink != nil {
-            if meetingLink?.service == .meet,
-               let account = getGmailAccount(event),
-               let urlEncodedAccount = account.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-            {
-                let url = URL(string: (meetingLink?.url.absoluteString)! + "?authuser=\(urlEncodedAccount)")!
-                meetingLink?.url = url
-            }
-            return meetingLink
-        }
-    }
-
-    return nil
-}
-
-func detectLinks(text: String) -> [URL] {
-    let types: NSTextCheckingResult.CheckingType = .link
-
-    do {
-        let detector = try NSDataDetector(types: types.rawValue)
-
-        let matches = detector.matches(in: text, options: .reportCompletion, range: NSRange(location: 0, length: text.count))
-        return matches.compactMap { $0.url }
-    } catch {
-        debugPrint(error.localizedDescription)
-    }
-
-    return []
-}
-
-func openEvent(_ event: EKEvent) {
-    let eventTitle = event.title ?? "status_bar_no_title".loco()
-    if let meeting = getMeetingLink(event) {
-        if Defaults[.runJoinEventScript], Defaults[.joinEventScriptLocation] != nil {
-            if let url = Defaults[.joinEventScriptLocation]?.appendingPathComponent("joinEventScript.scpt") {
-                print("URL: \(url)")
-                let task = try! NSUserAppleScriptTask(url: url)
-                task.execute { error in
-                    if let error = error {
-                        sendNotification("status_bar_error_apple_script_title".loco(), error.localizedDescription)
-                    }
-                }
-            }
-        }
-        openMeetingURL(meeting.service, meeting.url, nil)
-    } else if let eventUrl = event.url {
-        eventUrl.openInDefaultBrowser()
-    } else {
-        sendNotification("status_bar_error_link_missed_title".loco(eventTitle), "status_bar_error_link_missed_message".loco())
-    }
-}
-
-func getEventParticipantStatus(_ event: EKEvent) -> EKParticipantStatus? {
-    if event.hasAttendees {
-        if let attendees = event.attendees {
-            if let currentUser = attendees.first(where: { $0.isCurrentUser }) {
-                return currentUser.participantStatus
-            }
-        }
-    }
-    return EKParticipantStatus.unknown
-}
-
-func openMeetingURL(_ service: MeetingServices?, _ url: URL, _ browser: Browser?) {
-    switch service {
-    case .jitsi:
-        if Defaults[.useAppForJitsiLinks] {
-            var jitsiAppUrl = URLComponents(url: url, resolvingAgainstBaseURL: false)!
-            jitsiAppUrl.scheme = "jitsi-meet"
-            let result = jitsiAppUrl.url!.openInDefaultBrowser()
-            if !result {
-                sendNotification("status_bar_error_jitsi_link_title".loco(), "status_bar_error_jitsi_link_message".loco())
-                url.openInDefaultBrowser()
-            }
-        } else {
-            url.openIn(browser: browser ?? systemDefaultBrowser)
-        }
-    case .meet:
-        let browser = browser ?? Defaults[.meetBrowser]
-        if browser == MeetInOneBrowser {
-            let meetInOneUrl = URL(string: "meetinone://url=" + url.absoluteString)!
-            meetInOneUrl.openInDefaultBrowser()
-        } else {
-            url.openIn(browser: browser)
-        }
-
-    case .teams:
-        if Defaults[.useAppForTeamsLinks] {
-            var teamsAppURL = URLComponents(url: url, resolvingAgainstBaseURL: false)!
-            teamsAppURL.scheme = "msteams"
-            let result = teamsAppURL.url!.openInDefaultBrowser()
-            if !result {
-                sendNotification("status_bar_error_teams_link_title".loco(), "status_bar_error_teams_link_message".loco())
-                url.openInDefaultBrowser()
-            }
-        } else {
-            url.openIn(browser: browser ?? systemDefaultBrowser)
-        }
-
-    case .zoom, .zoomgov:
-        if Defaults[.useAppForZoomLinks] {
-            if url.absoluteString.contains("/my/") {
-                url.openIn(browser: browser ?? systemDefaultBrowser)
-            }
-            let urlString = url.absoluteString.replacingOccurrences(of: "?", with: "&").replacingOccurrences(of: "/j/", with: "/join?confno=")
-            var zoomAppUrl = URLComponents(url: URL(string: urlString)!, resolvingAgainstBaseURL: false)!
-            zoomAppUrl.scheme = "zoommtg"
-            let result = zoomAppUrl.url!.openInDefaultBrowser()
-            if !result {
-                sendNotification("status_bar_error_zoom_app_link_title".loco(), "status_bar_error_zoom_app_link_message".loco())
-                url.openInDefaultBrowser()
-            }
-        } else {
-            url.openIn(browser: browser ?? systemDefaultBrowser)
-        }
-    case .zoom_native:
-        let result = url.openInDefaultBrowser()
-        if !result {
-            sendNotification("status_bar_error_zoom_native_link_title".loco(), "status_bar_error_zoom_native_link_message".loco())
-
-            let urlString = url.absoluteString.replacingFirstOccurrence(of: "&", with: "?").replacingOccurrences(of: "/join?confno=", with: "/j/")
-            var zoomBrowserUrl = URLComponents(url: URL(string: urlString)!, resolvingAgainstBaseURL: false)!
-            zoomBrowserUrl.scheme = "https"
-            zoomBrowserUrl.url!.openInDefaultBrowser()
-        }
-    case .facetime:
-        NSWorkspace.shared.open(URL(string: "facetime://" + url.absoluteString)!)
-    case .facetimeaudio:
-        NSWorkspace.shared.open(URL(string: "facetime-audio://" + url.absoluteString)!)
-    case .phone:
-        NSWorkspace.shared.open(URL(string: "tel://" + url.absoluteString)!)
-
-    default:
-        url.openIn(browser: browser ?? systemDefaultBrowser)
-    }
-}
-
-func removePatchVerion(_ version: String) -> String {
-    let versionArray = version.split(separator: ".")
-    let major = versionArray[0]
-    let minor = versionArray[1]
-    return "\(major).\(minor)"
-}
-
-func bundleIdentifier(forAppName appName: String) -> String? {
-    let workspace = NSWorkspace.shared
-    let appPath = workspace.fullPath(forApplication: appName)
-    if let appPath = appPath {
-        let appBundle = Bundle(path: appPath)
-        return appBundle?.bundleIdentifier
-    }
-    return nil
-}
-
-/**
- * adds the default browsers for the browser dialog
- */
 func addInstalledBrowser() {
     let existingBrowsers = Defaults[.browsers]
 
@@ -332,17 +94,147 @@ func addInstalledBrowser() {
     }
 }
 
-func emailEventAttendees(_ event: EKEvent) {
-    let service = NSSharingService(named: NSSharingService.Name.composeEmail)!
-    var recipients: [String] = []
-    event.attendees?.forEach {
-        if let email = ($0.url as NSURL).resourceSpecifier {
-            recipients.append(email)
+func hexStringToUIColor(hex: String) -> NSColor {
+    var cString: String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+
+    if cString.hasPrefix("#") {
+        cString.remove(at: cString.startIndex)
+    }
+
+    if (cString.count) != 6 {
+        return NSColor.gray
+    }
+
+    var rgbValue: UInt64 = 0
+    Scanner(string: cString).scanHexInt64(&rgbValue)
+
+    return NSColor(
+        red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+        green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+        blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+        alpha: CGFloat(1.0)
+    )
+}
+
+func createNSViewFromText(text: String) -> NSView {
+    // Create views
+    let paddingView = NSView()
+    let textView = NSTextView()
+    paddingView.addSubview(textView)
+
+    // Text styling
+    let paragraphStyle = NSMutableParagraphStyle()
+    paragraphStyle.lineBreakMode = NSLineBreakMode.byWordWrapping
+    textView.textStorage?.setAttributedString(
+        text.splitWithNewLineAttributedString(
+            with: [
+                NSAttributedString.Key.paragraphStyle: paragraphStyle,
+                NSAttributedString.Key.font: NSFont.systemFont(ofSize: 14)
+            ],
+            maxWidth: 300.0
+        )
+        .withLinksEnabled()
+    )
+    textView.backgroundColor = .clear
+    textView.textColor = .textColor
+
+    // Adjust frame layout for padding
+    if let textContainer = textView.textContainer {
+        textView.layoutManager?.ensureLayout(for: textContainer)
+        if let frame = textView.layoutManager?.usedRect(for: textContainer) {
+            // There's 10pt of padding seemingly built into the left side,
+            // no such thing on the right so we go 20pt to match the left side
+            textView.frame = NSRect(x: 10.0, y: 0.0, width: frame.width, height: frame.height)
+            paddingView.frame = NSRect(x: 0.0, y: 0.0, width: frame.width + 20, height: frame.height)
+        } else {
+            // Backup layout if we couldn't calculate frame
+            textView.autoresizingMask = [.width, .height]
         }
+    } else {
+        // Backup layout if we couldn't calculate frame
+        textView.autoresizingMask = [.width, .height]
     }
-    service.recipients = recipients
-    if let title = event.title {
-        service.subject = title
+    return paddingView
+}
+
+func getInstallationDate() -> Date? {
+    let urlToDocumentsFolder: URL? = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last
+    return try? FileManager.default.attributesOfItem(atPath: (urlToDocumentsFolder?.path)!)[.creationDate] as? Date
+}
+
+func maintainDefaultsBackwardCompatibility() {
+    if UserDefaults.standard.object(forKey: "useAppForZoomLinks") != nil {
+        if UserDefaults.standard.bool(forKey: "useAppForZoomLinks") {
+            Defaults[.zoomBrowser] = ZoomAppBrowser
+        }
+        UserDefaults.standard.removeObject(forKey: "useAppForZoomLinks")
     }
-    service.perform(withItems: [])
+
+    if UserDefaults.standard.object(forKey: "useAppForTeamsLinks") != nil {
+        if UserDefaults.standard.bool(forKey: "useAppForTeamsLinks") {
+            Defaults[.teamsBrowser] = TeamsAppBrowser
+        }
+        UserDefaults.standard.removeObject(forKey: "useAppForTeamsLinks")
+    }
+
+    if UserDefaults.standard.object(forKey: "useAppForJitsiLinks") != nil {
+        if UserDefaults.standard.bool(forKey: "useAppForJitsiLinks") {
+            Defaults[.jitsiBrowser] = JitsiAppBrowser
+        }
+        UserDefaults.standard.removeObject(forKey: "useAppForJitsiLinks")
+    }
+}
+
+/*
+ * -----------------------
+ * MARK: - Fantastical
+ * ------------------------
+ */
+
+func checkIsFantasticalInstalled() -> Bool {
+    NSWorkspace.shared.urlForApplication(withBundleIdentifier: "com.flexibits.fantastical2.mac") != nil
+}
+
+func openInFantastical(startDate: Date, title: String) {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd"
+
+    let queryItems = [URLQueryItem(name: "date", value: dateFormatter.string(from: startDate)), URLQueryItem(name: "title", value: title)]
+    var fantasticalUrlComp = URLComponents()
+    fantasticalUrlComp.scheme = "x-fantastical3"
+    fantasticalUrlComp.host = "show"
+    fantasticalUrlComp.queryItems = queryItems
+
+    let fantasticalUrl = fantasticalUrlComp.url!
+    fantasticalUrl.openInDefaultBrowser()
+}
+
+/*
+ * -----------------------
+ * MARK: - Clipboard
+ * ------------------------
+ */
+
+func openLinkFromClipboard() {
+    let pasteboard = NSPasteboard.general
+    let clipboardContent = pasteboard.string(forType: .string) ?? ""
+
+    if !clipboardContent.isEmpty {
+        let meetingLink = detectMeetingLink(clipboardContent)
+
+        if let meetingLink = meetingLink {
+            openMeetingURL(meetingLink.service, meetingLink.url, nil)
+        } else {
+            let validUrl = NSURL(string: clipboardContent)
+            if validUrl != nil {
+                URL(string: clipboardContent)?.openInDefaultBrowser()
+            } else {
+                sendNotification("No valid url",
+                                 "Clipboard has no meeting link, so the meeting cannot be started")
+            }
+        }
+    } else {
+        sendNotification("Clipboard is empty",
+                         "Clipboard has no content, so the meeting cannot be started...")
+    }
 }

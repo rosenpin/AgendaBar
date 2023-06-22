@@ -18,6 +18,9 @@
 "notifications_event_start_one_minute_body" = "The event starts in one minute";
 "notifications_event_start_three_minutes_body" = "Begivenheten starter om tre minutter";
 "notifications_event_start_five_minutes_body" = "Begivenheten starter om fem minutter";
+"notifications_snooze_until_start" = "Snooze until start time";
+"notifications_snooze_for" = "Snooze for %@ min";
+"notifications_meetingbar_join_event_action" = "Join";
 "store_patronage_purchase_cloud_service_revoked_message" = "Bruker har nektet tilgang for bruk av denne skytjenesten";
 "store_patronage_purchase_cloud_service_network_connection_failed" = "Kunne ikke koble til nettverket";
 "store_patronage_purchase_cloud_service_permission_denied_message" = "Tilgang til skytjenesteinfo tillates ikke";
@@ -33,7 +36,7 @@
 "constants_meeting_service_other" = "Annet";
 
 // MARK: - Constants
-"shared_send_notification_directly_value" = "når begivenheten starter";
+"general_when_event_starts" = "når begivenheten starter";
 
 // MARK: - Shared
 
@@ -42,6 +45,8 @@
 "access_screen_access_granted_title" = "Forespør tilgang til kalendere.";
 "access_screen_access_denied_relaunch_title" = "Så må du kjøre programmet manuelt for å fortsette oppsettet.";
 "access_screen_access_denied_checkbox_title" = "og velg avkryssningsboksen ved siden av MeetingBar.";
+"shared_automatic_event_join_toggle" = "Automatically join next event meeting";
+"shared_automatic_event_join_tip" = "This setting will automatically open your next meeting in your configured app or browser";
 
 // MARK: - Access screen
 
@@ -50,6 +55,16 @@
 "welcome_screen_shortcut_ad_hoc_meeting_title" = "med snarveien din:";
 "welcome_screen_shortcut_next_meeting_title" = "Ta del i neste begivenhetsmøte med snarveien din:";
 "welcome_screen_login_launch_toggle_title" = "Kjør MeetingBar ved innlogging";
+"access_screen_provider_picker_label" = "Select calendars provider";
+"access_screen_provider_macos_title" = "MacOS Calendar app";
+"access_screen_provider_macos_recomended" = "(recomended)";
+"access_screen_provider_macos_data_source" = "Get data from MacOS Calendar app";
+"access_screen_provider_macos_number_of_accounts" = "Any number of any connected accounts";
+"access_screen_provider_gcalendar_data_source" = "Get data directly from Google Calendar";
+"access_screen_provider_gcalendar_number_of_accounts" = "Only one Google account";
+"access_screen_provider_gcalendar_sign_in_title" = "Google Sign In";
+"access_screen_provider_gcalendar_sign_in_description" = "Allow MeetingBar access to your calendar in browser window";
+"access_screen_try_again" = "Try again";
 
 // MARK: - Welcome screen
 
@@ -78,7 +93,10 @@
 "status_bar_section_join_current_meeting" = "Join current event meeting";
 "preferences_advanced_regex_title" = "Egendefinerte regulære uttrykk for møtelenke";
 "preferences_advanced_wrong_location_message" = "Velg Bruker → Bibliotek → Programskript → leits.MeetingBar-mappen";
-"preferences_advanced_apple_script_placeholder" = "# skriv ditt skript her\nfortell programmet «Musikk» at det skal ta pause";
+"preferences_advanced_apple_script_placeholder" = "# skriv ditt skript her\ntell application \"Music\" to pause";
+"preferences_advanced_run_script_on_event_start" = "Run AppleScript automatically";
+"preferences_advanced_test_script_on_next_event" = "Test on next event";
+"preferences_advanced_edit_script" = "Edit script";
 "preferences_advanced_apple_script_checkmark" = "Kjør AppleScript når du tar del i møtet";
 "preferences_advanced_event_regex_title" = "Custom regexes to filter out meetings";
 
@@ -87,11 +105,15 @@
 
 "preferences_advanced_setting_warning" = "⚠️ Kun bruk disse innstillingene hvis du forstår hva de gjør";
 "preferences_calendars_add_account_modal" = "Legg til eksterne kalendere slik:\n1. Åpne forvalgt kalenderprogram\n2. Klikk på «Legg til konto» i menyen\n3. Velg og koble til kontoen din";
+"preferences_calendars_provider_section_title" = "Calendars provider";
+"preferences_calendars_provider_gcalendar_change_account" = "Change Google Account";
+"preferences_calendars_provider_macos_switch" = "Switch to MacOS Calendar";
+"preferences_calendars_provider_gcalendar_switch" = "Switch to Google Calendar API";
 "preferences_bookmarks_new_bookmark_already_exist" = "Et bokmerke med denne lenken/telefonen finnes allerede med navnet %@:\n%@";
 "preferences_configure_browsers_choose_broser_panel_message" = "Velg en nettleser fra hvilken som helst sti.";
 "preferences_configure_browsers_delete_alert_message" = "Ønsker du å slette %@-nettleseroppsettet?";
 "preferences_services_google_meet_tip" = "Tips: Meet støtter valg av konto via parameter, f.eks. https://meet.google.com/new?authuser=1";
-"preferences_appearance_status_bar_next_event_toggle" = "Vis kun neste begivenhet som starter innen";
+"preferences_appearance_status_bar_next_event_toggle" = "Vis kun begivenheter som starter innen";
 "preferences_appearance_status_bar_next_event_stepper" = "%d minutter";
 "preferences_appearance_status_bar_title_dot_value" = "punkt (•)";
 "preferences_appearance_status_bar_title_event_title_value" = "begivenhetstittel";
@@ -101,7 +123,7 @@
 "preferences_appearance_events_value_hide_without_meeting_link" = "skjul alle uten møtelenker";
 "preferences_appearance_events_value_inactive_without_meeting_link" = "vis dem uten møtelenker som inaktive";
 "preferences_general_external_patronage" = "Kronerulling";
-"preferences_general_meeting_bar_description" = "MeetingBar er et fritt program laget av Andrii Leitsius\nProgrammet tar sikte på å gjøre din opplevelse med nettbaserte møter smidigere og enklere";
+"preferences_general_meeting_bar_description" = "MeetingBar er et fritt program laget av Andrii Leitsius 🇺🇦\nProgrammet tar sikte på å gjøre din opplevelse med nettbaserte møter smidigere og enklere";
 "preferences_general_shortcut_toggle_meeting_name_visibility" = "Veksle visning av tittel i statusfelt:";
 "preferences_general_shortcut_join_from_clipboard" = "Ta del i møte fra utklippstavle:";
 "windows_title_changelog" = "MeetingBar Hva er nytt";
@@ -132,9 +154,9 @@
 "constants_meeting_service_url" = "Nettadresse";
 "constants_meeting_service_phone" = "Telefon";
 "constants_create_meeting_service_url" = "Egendefinert nettadresse";
-"shared_send_notification_five_minute_value" = "fem minutter før";
-"shared_send_notification_three_minute_value" = "tre minutter før";
-"shared_send_notification_one_minute_value" = "ett minutt før";
+"general_five_minute_before" = "fem minutter før";
+"general_three_minute_before" = "tre minutter før";
+"general_one_minute_before" = "ett minutt før";
 "access_screen_access_denied_system_preferences_button" = "Systeminnstillinger";
 "access_screen_access_screen_access_denied_go_to_title" = "Gå til";
 
@@ -148,6 +170,7 @@
 "status_bar_quit" = "Avslutt MeetingBar";
 "status_bar_preferences" = "Innstillinger";
 "status_bar_whats_new" = "Hva er nytt?";
+"status_bar_rate_app" = "Rate App";
 "status_bar_hide_meeting_names" = "Skjul møtetittel";
 "status_bar_show_meeting_names" = "Vis møtetittel";
 "status_bar_quick_actions" = "Hurtighandlinger";
@@ -174,7 +197,6 @@
 "status_bar_section_today" = "I dag";
 "preferences_advanced_regex_new_cant_save_title" = "Kan ikke lagre regulært uttrykk";
 "preferences_advanced_regex_new_title" = "Skriv inn regulært uttrykk";
-"preferences_advanced_regex_delete_button" = "x";
 "preferences_advanced_regex_edit_button" = "rediger";
 "preferences_advanced_regex_add_button" = "Legg til regulært uttrykk";
 "preferences_advanced_wrong_location_button" = "Skjønner.";
@@ -311,3 +333,13 @@
 "general_close" = "Lukk";
 "general_cancel" = "Avbryt";
 "general_ok" = "OK";
+"status_bar_section_refresh_sources" = "Gjenoppfrisk kilder";
+"status_bar_menu_dismiss_curent_meeting" = "Dismiss current meeting";
+"status_bar_menu_dismiss_next_meeting" = "Dismiss next meeting";
+"status_bar_menu_remove_all_dismissals" = "Remove all dismissals";
+"status_bar_event_dismissed_mark" = "dismissed";
+"notification_next_meeting_dismissed_title" = "Dismissed %@";
+"notification_next_meeting_dismissed_message" = "You can remove dismissal from Quick Actions";
+"notification_all_dismissals_removed_title" = "Removed all dismissals";
+"notification_all_dismissals_removed_message" = "All dismissed meetings are back in action";
+"notifications_event_started_body" = "Begivenheten har begynt";

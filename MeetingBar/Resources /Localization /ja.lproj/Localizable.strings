@@ -1,4 +1,4 @@
-/* 
+/*
   Localizable.strings
   MeetingBar
 
@@ -48,7 +48,7 @@
 "preferences_general_shortcut_join_next" = "次のミーティングに参加:";
 "preferences_general_shortcut_join_from_clipboard" = "クリップボードからミーティングに参加:";
 "preferences_general_shortcut_toggle_meeting_name_visibility" = "ステータスバーのタイトル表示をトグルする:";
-"preferences_general_meeting_bar_description" = "MeetingBar は Andrii Leitsius によって開発されたオープンソースアプリケーションです。\nオンラインミーティングをスムーズで簡単にします。";
+"preferences_general_meeting_bar_description" = "MeetingBar は Andrii Leitsius 🇺🇦 によって開発されたオープンソースアプリケーションです。\nオンラインミーティングをスムーズで簡単にします。";
 "preferences_general_external_patronage" = "パトロンになる";
 "preferences_general_external_gitHub" = "GitHub";
 "preferences_general_external_contact" = "お問い合わせ";
@@ -172,6 +172,10 @@
 "preferences_calendars_add_account_description" = "ご希望のカレンダーが見つかりませんか？";
 "preferences_calendars_add_account_button" = "アカウントを追加";
 "preferences_calendars_add_account_modal" = "外部カレンダーの追加手順:\n1. デフォルトのカレンダーアプリを開きます\n2. メニューの「アカウントを追加」をクリックします\n3. アカウントを選択して接続します";
+"preferences_calendars_provider_section_title" = "カレンダープロバイダ";
+"preferences_calendars_provider_gcalendar_change_account" = "Googleアカウントの変更";
+"preferences_calendars_provider_macos_switch" = "macOSのカレンダーに切り替え";
+"preferences_calendars_provider_gcalendar_switch" = "GoogleカレンダーAPIに切り替え";
 
 // MARK: - Preferences Advanced
 
@@ -179,6 +183,9 @@
 "preferences_advanced_setting_warning" = "⚠️ これらの設定は、内容をご理解の上でご利用ください";
 "preferences_advanced_apple_script_checkmark" = "ミーティング参加時に AppleScript を実行する";
 "preferences_advanced_apple_script_placeholder" = "# ここにスクリプトを書いてください\ntell application \"Music\" to pause";
+"preferences_advanced_run_script_on_event_start" = "AppleScript自動で実行する";
+"preferences_advanced_test_script_on_next_event" = "次のイベントをテストする";
+"preferences_advanced_edit_script" = "スクリプトを編集";
 "preferences_advanced_save_script_button" = "保存";
 "preferences_advanced_wrong_location_title" = "場所が誤っています";
 "preferences_advanced_wrong_location_message" = "User > Library → Application Scripts → leits.MeetingBar フォルダを選択してください";
@@ -186,7 +193,6 @@
 "preferences_advanced_regex_title" = "ミーティングリンク用のカスタム正規表現";
 "preferences_advanced_regex_add_button" = "正規表現を追加";
 "preferences_advanced_regex_edit_button" = "編集";
-"preferences_advanced_regex_delete_button" = "x";
 "preferences_advanced_regex_new_title" = "正規表現を入力する";
 "preferences_advanced_regex_new_cant_save_title" = "正規表現を保存できませんでした";
 
@@ -230,6 +236,7 @@
 "status_bar_show_meeting_names" = "ミーティング名を表示する";
 "status_bar_hide_meeting_names" = "ミーティング名を隠す";
 "status_bar_whats_new" = "お知らせ";
+"status_bar_rate_app" = "Rate App";
 "status_bar_preferences" = "設定";
 "status_bar_quit" = "MeetingBar を終了";
 "status_bar_no_title" = "タイトルなし";
@@ -272,17 +279,29 @@
 "access_screen_access_denied_relaunch_title" = "手動でアプリを起動して設定を続ける必要があります。";
 "access_screen_access_granted_title" = "カレンダーへのアクセス許可を求めています。";
 "access_screen_access_granted_click_ok_title" = "macOS のポップアップウィンドウで \"OK\" をクリックしてください。";
+"access_screen_provider_picker_label" = "Select calendars provider";
+"access_screen_provider_macos_title" = "MacOS Calendar app";
+"access_screen_provider_macos_recomended" = "(recomended)";
+"access_screen_provider_macos_data_source" = "Get data from MacOS Calendar app";
+"access_screen_provider_macos_number_of_accounts" = "Any number of any connected accounts";
+"access_screen_provider_gcalendar_data_source" = "Get data directly from Google Calendar";
+"access_screen_provider_gcalendar_number_of_accounts" = "Only one Google account";
+"access_screen_provider_gcalendar_sign_in_title" = "Google Sign In";
+"access_screen_provider_gcalendar_sign_in_description" = "Allow MeetingBar access to your calendar in browser window";
+"access_screen_try_again" = "Try again";
 
 // MARK: - Shared
 
 
 "shared_send_notification_toggle" = "イベント開始前に通知する";
-"shared_send_notification_directly_value" = "イベントが始まったとき";
-"shared_send_notification_one_minute_value" = "1分前";
-"shared_send_notification_three_minute_value" = "3分前";
-"shared_send_notification_five_minute_value" = "5分前";
-"shared_send_notification_no_alert_style_tip" = "⚠️ MeetingBar の macOS の通知設定は、アラートに設定されていません。持続的な通知を利用する場合は、アラートを有効にしてください。";
+"general_when_event_starts" = "イベントが始まったとき";
+"general_one_minute_before" = "1分前";
+"general_three_minute_before" = "3分前";
+"general_five_minute_before" = "5分前";
+"shared_send_notification_no_alert_style_tip" = "⚠️ MeetingBar の macOS の通知設定は、通知パネルに設定されていません。持続的な通知を利用する場合は、通知パネルに設定してください。";
 "shared_send_notification_disabled_tip" = "⚠️ MeetingBar の macOS の通知設定が現在オフになっています。ミーティングを見逃さないために、 macOS のシステム設定で通知を有効にしてください。";
+"shared_automatic_event_join_toggle" = "自動的に次のイベントを開く";
+"shared_automatic_event_join_tip" = "設定したアプリやブラウザで次のイベントを自動的に開きます。";
 
 // MARK: - Constants
 "constants_create_meeting_service_url" = "カスタム URL";
@@ -324,6 +343,10 @@
 "notifications_event_start_one_minute_body" = "イベント開始1分前";
 "notifications_event_start_three_minutes_body" = "イベント開始3分前";
 "notifications_event_start_five_minutes_body" = "イベント開始5分前";
+"notifications_event_started_body" = "The event has started";
+"notifications_snooze_until_start" = "Snooze until start time";
+"notifications_snooze_for" = "Snooze for %@ min";
+"notifications_meetingbar_join_event_action" = "Join";
 
 // MARK: - Link open
 
@@ -331,3 +354,12 @@
 "link_url_cant_open_title" = "ひえー！ %@ のリンクを開くことが出来ませんでした";
 "link_url_cant_open_message" = "%@ がインストールされていることを確認するか、代わりにウェブブラウザーでリンクを開いてください。";
 "preferences_advanced_event_regex_title" = "ミーティングをフィルターするための正規表現";
+"status_bar_menu_dismiss_curent_meeting" = "現在のミーティングを閉じる";
+"status_bar_menu_dismiss_next_meeting" = "次のミーティングを閉じる";
+"status_bar_menu_remove_all_dismissals" = "Remove all dismissals";
+"status_bar_event_dismissed_mark" = "dismissed";
+"notification_next_meeting_dismissed_title" = "Dismissed %@";
+"notification_next_meeting_dismissed_message" = "You can remove dismissal from Quick Actions";
+"notification_all_dismissals_removed_title" = "Removed all dismissals";
+"notification_all_dismissals_removed_message" = "All dismissed meetings are back in action";
+"status_bar_section_refresh_sources" = "ソースを更新";

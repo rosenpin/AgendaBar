@@ -11,37 +11,39 @@ import Foundation
 extension Defaults.Keys {
     // General
     static let appVersion = Key<String>("appVersion", default: "2.0.5")
-    static let lastRevisedVersionInChangelog = Key<String>("lastRevisedVersionInChangelog", default: "3.1.2")
+    static let lastRevisedVersionInChangelog = Key<String>("lastRevisedVersionInChangelog", default: "4.2.0")
 
     static let isInstalledFromAppStore = Key<Bool>("isInstalledFromAppStore", default: false)
     static let patronageDuration = Key<Int>("patronageDuration", default: 0)
 
-    static let calendarTitle = Key<String>("calendarTitle", default: "") // Backward compatibility
-    static let selectedCalendars = Key<[String]>("selectedCalendars", default: []) // Backward compatibility
     static let selectedCalendarIDs = Key<[String]>("selectedCalendarIDs", default: [])
+    static let eventStoreProvider = Key<EventStoreProvider>("eventStoreProvider", default: .macOSEventKit)
 
     static let onboardingCompleted = Key<Bool>("onboardingCompleted", default: false)
 
     static let showEventsForPeriod = Key<ShowEventsForPeriod>("showEventsForPeriod", default: .today)
     static let joinEventNotification = Key<Bool>("joinEventNotification", default: true)
     static let joinEventNotificationTime = Key<JoinEventNotificationTime>("joinEventNotificationTime", default: .atStart)
-    static let launchAtLogin = Key<Bool>("launchAtLogin", default: false)
+
+    static let automaticEventJoin = Key<Bool>("automaticEventJoin", default: false)
+    static let automaticEventJoinTime = Key<AutomaticEventJoinTime>("automaticEventJoinTime", default: .atStart)
+    static let processedEventsForAutoJoin = Key<[ProcessedEvent]>("processedEventsForAutoJoin", default: [])
+
     static let preferredLanguage = Key<AppLanguage>("preferredLanguage", default: .system)
 
     // Status Bar Appearance
-    static let showEventTitleInStatusBar = Key<Bool?>("showEventTitleInStatusBar") // Backward compatibility
     static let eventTitleFormat = Key<EventTitleFormat>("eventTitleFormat", default: .show)
     static let eventTimeFormat = Key<EventTimeFormat>("eventTimeFormat", default: .show)
 
     static let eventTitleIconFormat = Key<EventTitleIconFormat>("eventTitleIconFormat", default: .none)
-    static let titleLength = Key<Double?>("titleLength", default: nil) // Backward compatibility
     static let statusbarEventTitleLength = Key<Int>("statusbarEventTitleLength", default: statusbarEventTitleLengthLimits.max)
 
     static let hideMeetingTitle = Key<Bool>("hideMeetingTitle", default: false)
+    static let dismissedEvents = Key<[ProcessedEvent]>("dismissedEvents", default: [])
 
     // Menu Appearance
     // if the event title in the menu should be shortened or not -> the length will be stored in field menuEventTitleLength
-    static let shortenEventTitle = Key<Bool>("shortenEventTitle", default: false)
+    static let shortenEventTitle = Key<Bool>("shortenEventTitle", default: true)
     static let menuEventTitleLength = Key<Int>("menuEventTitleLength", default: 50)
 
     static let showEventDetails = Key<Bool>("showEventDetails", default: false)
@@ -51,7 +53,6 @@ extension Defaults.Keys {
     static let pastEventsAppereance = Key<PastEventsAppereance>("pastEventsAppereance", default: .show_inactive)
     static let personalEventsAppereance = Key<PastEventsAppereance>("personalEventsAppereance", default: .show_active)
     static let disablePastEvents = Key<Bool?>("disablePastEvents")
-    static let hidePastEvents = Key<Bool>("hidePastEvents", default: false)
 
     static let showEventMaxTimeUntilEventThreshold = Key<Int>("showEventMaxTimeUntilEventThreshold", default: 60)
     static let showEventMaxTimeUntilEventEnabled = Key<Bool>("showEventMaxTimeUntilEventEnabled", default: false)
@@ -86,22 +87,26 @@ extension Defaults.Keys {
     static let createMeetingServiceUrl = Key<String>("createMeetingServiceUrl", default: "")
 
     static let meetBrowser = Key<Browser>("meetBrowser", default: systemDefaultBrowser)
+    static let zoomBrowser = Key<Browser>("zoomBrowser", default: systemDefaultBrowser)
+    static let teamsBrowser = Key<Browser>("teamsBrowser", default: systemDefaultBrowser)
+    static let jitsiBrowser = Key<Browser>("jitsiBrowser", default: systemDefaultBrowser)
 
     /**
      * browser used for creating a new meeting
      */
     static let browserForCreateMeeting = Key<Browser>("browserForCreateMeeting", default: systemDefaultBrowser)
 
-    static let browserForMeetLinks = Key<DeprecatedBrowser?>("browserForMeetLinks", default: nil) // Backward compatibility
-    static let useChromeForMeetLinks = Key<Bool?>("useChromeForMeetLinks") // Backward compatibility
-    static let useAppForZoomLinks = Key<Bool>("useAppForZoomLinks", default: false)
-    static let useAppForTeamsLinks = Key<Bool>("useAppForTeamsLinks", default: false)
-    static let useAppForJitsiLinks = Key<Bool>("useAppForJitsiLinks", default: false)
-
     // Advanced
     static let joinEventScriptLocation = Key<URL?>("joinEventScriptLocation", default: nil)
     static let runJoinEventScript = Key<Bool>("runAppleScriptWhenJoiningEvent", default: false)
     static let joinEventScript = Key<String>("joinEventScript", default: "preferences_advanced_apple_script_placeholder".loco())
+
+    static let eventStartScriptLocation = Key<URL?>("eventStartScriptLocation", default: nil)
+    static let runEventStartScript = Key<Bool>("runEventStartScript", default: false)
+    static let eventStartScriptTime = Key<EventScriptExecutionTime>("eventStartScriptTime", default: .atStart)
+    static let eventStartScript = Key<String>("eventStartScript", default: eventStartScriptPlaceholder)
+    static let processedEventsForRunScriptOnEventStart = Key<[ProcessedEvent]>("processedEventsForRunScriptOnEventStart", default: [])
+
     static let customRegexes = Key<[String]>("customRegexes", default: [])
     static let filterEventRegexes = Key<[String]>("filterEventRegexes", default: [])
 }

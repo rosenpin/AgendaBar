@@ -13,7 +13,7 @@
 "general_delete" = "Izbriši";
 "general_save" = "Spremi";
 "general_meeting" = "Sastanak";
-"create_meeting_error_title" = "Nije moguće stvoriti sastanak";
+"create_meeting_error_title" = "Nije moguće stvoriti novi sastanak";
 "create_meeting_error_message" = "Prilagođeni URL „%@“ nedostaje ili ne valja. Dodaj ga u postavkama programa.";
 "next_meeting_empty_title" = "Danas više nema sastanaka";
 "next_meeting_empty_message" = "Opa! Vrijeme je za cocoa";
@@ -45,7 +45,7 @@
 "preferences_general_shortcut_join_next" = "Pridruži se sljedećem sastanku:";
 "preferences_general_shortcut_join_from_clipboard" = "Pridruži se sastanku iz međuspremnika:";
 "preferences_general_shortcut_toggle_meeting_name_visibility" = "Uključi/isključi prikaz naslova u traci stanja:";
-"preferences_general_meeting_bar_description" = "MeetingBar je program otvorenog koda za jednostavnije održavanje\nsastanaka online. Autor programa je Andrii Leitsius.";
+"preferences_general_meeting_bar_description" = "MeetingBar je program otvorenog koda\na autor programa je Andrii Leitsius 🇺🇦\nZa jednostavnije održavanje sastanaka online";
 "preferences_general_external_patronage" = "Pokroviteljstvo";
 "preferences_general_external_gitHub" = "GitHub";
 "preferences_general_external_contact" = "Kontakt";
@@ -162,14 +162,21 @@
 
 "preferences_calendars_select_calendars_title" = "Odaberi kalendare za prikaz događaja na traci stanja";
 "preferences_calendars_add_account_description" = "Ne možeš pronaći kalendar koji trebaš?";
-"preferences_calendars_add_account_button" = "Dodaj račun";
+"preferences_calendars_add_account_button" = "Dodaj račun kalendara";
 "preferences_calendars_add_account_modal" = "Za dodavanje vanjskih kalendara:\n1. Otvori standardni program za kalendare\n2. Pritisni „Dodaj račun” u izborniku\n3. Odaberi i poveži tvoj račun";
+"preferences_calendars_provider_section_title" = "Pružatelj kalendara";
+"preferences_calendars_provider_gcalendar_change_account" = "Promijeni Google račun";
+"preferences_calendars_provider_macos_switch" = "Prebaci na MacOS Kalendar";
+"preferences_calendars_provider_gcalendar_switch" = "Prebaci na Google Kalendar API";
 
 // MARK: - Preferences Advanced
 
 "preferences_advanced_setting_warning" = "⚠️ Koristi ove postavke samo ako razumiješ što rade";
 "preferences_advanced_apple_script_checkmark" = "Pokreni AppleScript kad se pridružuješ sastanku";
-"preferences_advanced_apple_script_placeholder" = "# ovdje upiši tvoja skripta\nnaredi programu „Music” da zaustavi reprodukciju";
+"preferences_advanced_apple_script_placeholder" = "# ovdje upiši tvoja skripta\nnaredi aplikaciji „Glazba“ da zaustavi reprodukciju";
+"preferences_advanced_run_script_on_event_start" = "Pokreni AppleScript automatski";
+"preferences_advanced_test_script_on_next_event" = "Testiraj na sljedećem događaju";
+"preferences_advanced_edit_script" = "Uredi skripta";
 "preferences_advanced_save_script_button" = "Spremi skripta";
 "preferences_advanced_wrong_location_title" = "Krivo mjesto";
 "preferences_advanced_wrong_location_message" = "Odaberi Korisnici → Medijateka → Application Scripts → leits.MeetingBar mapa";
@@ -177,7 +184,6 @@
 "preferences_advanced_regex_title" = "Prilagođen regularni izrazi za poveznicu sastanka";
 "preferences_advanced_regex_add_button" = "Dodaj regularni izraz";
 "preferences_advanced_regex_edit_button" = "uredi";
-"preferences_advanced_regex_delete_button" = "x";
 "preferences_advanced_regex_new_title" = "Upiši regularni izraz";
 "preferences_advanced_regex_new_cant_save_title" = "Nije moguće spremiti regularni izraz";
 
@@ -220,6 +226,7 @@
 "status_bar_show_meeting_names" = "Prikaži naslov sastanka";
 "status_bar_hide_meeting_names" = "Sakrij naslov sastanka";
 "status_bar_whats_new" = "Što je novoga?";
+"status_bar_rate_app" = "Ocijeni program";
 "status_bar_preferences" = "Postavke";
 "status_bar_quit" = "Zatvori MeetingBar";
 "status_bar_no_title" = "Bez naslova";
@@ -259,16 +266,28 @@
 "access_screen_access_denied_relaunch_title" = "Zatim pokreni program ručno za daljnje postavljanje programa.";
 "access_screen_access_granted_title" = "Zahtijevamje pristupa kalendarima …";
 "access_screen_access_granted_click_ok_title" = "Pritisni „U redu” u skočnom prozoru MacOS-a.";
+"access_screen_provider_picker_label" = "Odaberi pružatelja kalendara";
+"access_screen_provider_macos_title" = "MacOS program Kalendar";
+"access_screen_provider_macos_recomended" = "(preporučeno)";
+"access_screen_provider_macos_data_source" = "Preuzmi podatke iz MacOS programa Kalendar";
+"access_screen_provider_macos_number_of_accounts" = "Bilo koji broj bilo kojih povezanih računa";
+"access_screen_provider_gcalendar_data_source" = "Preuzmi podatke izravno iz Google Kalendar";
+"access_screen_provider_gcalendar_number_of_accounts" = "Samo jedan Google račun";
+"access_screen_provider_gcalendar_sign_in_title" = "Google prijava";
+"access_screen_provider_gcalendar_sign_in_description" = "Dozvoli porgramu MeetingBar pristup tvom kalendaru u prozoru preglednika";
+"access_screen_try_again" = "Pokušaj ponovo";
 
 // MARK: - Shared
 
 "shared_send_notification_toggle" = "Pošalji obavijest za pridruživanje sljedećem sastanku";
-"shared_send_notification_directly_value" = "kad sastanak počne";
-"shared_send_notification_one_minute_value" = "1 minutu prije";
-"shared_send_notification_three_minute_value" = "3 minute prije";
-"shared_send_notification_five_minute_value" = "5 minuta prije";
+"general_when_event_starts" = "kad događaj počne";
+"general_one_minute_before" = "1 minutu prije";
+"general_three_minute_before" = "3 minute prije";
+"general_five_minute_before" = "5 minuta prije";
 "shared_send_notification_no_alert_style_tip" = "⚠️ Tvoje macOS postavke obavještavanja za MeetingBar trenutačno nisu postavljene na upozoravanje. Aktiviraj upozorenja ako želiš dobivati obavijesti.";
 "shared_send_notification_disabled_tip" = "⚠️ Tvoje macOS postavke obavještavanja za MeetingBar trenutačno su isključene. Za praćenje sastanaka uključi obavijesti u postavkama macOS sustava.";
+"shared_automatic_event_join_toggle" = "Automatski se pridruži sljedećem sastanku";
+"shared_automatic_event_join_tip" = "Ova postavka automatski otvara tvoj sljedeći sastanak u konfiguriranon programu ili pregledniku";
 
 // MARK: - Constants
 "constants_create_meeting_service_url" = "Prilagođeni URL";
@@ -309,9 +328,22 @@
 "notifications_event_start_one_minute_body" = "Događaj počinje za jednu minutu";
 "notifications_event_start_three_minutes_body" = "Događaj počinje za tri minute";
 "notifications_event_start_five_minutes_body" = "Događaj počinje za pet minuta";
+"notifications_snooze_until_start" = "Odgodi do vremena početka";
+"notifications_snooze_for" = "Odgodi za %@ min";
+"notifications_meetingbar_join_event_action" = "Pridruži se";
 
 // MARK: - Link open
 
 "link_url_cant_open_title" = "Ups! Nije moguće otvoriti poveznicu u %@";
 "link_url_cant_open_message" = "%@ mora biti instaliran ili otvori takve poveznice u jednom od web-preglednika koji su određeni u postavkama.";
 "preferences_advanced_event_regex_title" = "Prilagođeni regularni izrazi za filtriranje sastanaka";
+"status_bar_section_refresh_sources" = "Aktualiziraj izvore";
+"status_bar_menu_dismiss_curent_meeting" = "Raspusti trenutačni sastanak";
+"status_bar_menu_dismiss_next_meeting" = "Raspusti sljedeći sastanak";
+"status_bar_menu_remove_all_dismissals" = "Ukloni sva raspuštanja";
+"status_bar_event_dismissed_mark" = "raspušten";
+"notification_next_meeting_dismissed_title" = "Raspušten sastanak %@";
+"notification_next_meeting_dismissed_message" = "Raspuštanje možeš ukloniti iz „Brze radnje”";
+"notification_all_dismissals_removed_title" = "Uklonjena su sva raspuštanja";
+"notification_all_dismissals_removed_message" = "Svi raspušteni sastanci su ponovo vraćeni";
+"notifications_event_started_body" = "Događaj je započeo";

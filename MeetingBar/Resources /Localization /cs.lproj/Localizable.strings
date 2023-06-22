@@ -15,6 +15,10 @@
 "notifications_event_start_one_minute_body" = "Událost začíná za minutu";
 "notifications_event_start_three_minutes_body" = "Událost začíná za tři minuty";
 "notifications_event_start_five_minutes_body" = "Událost začíná za pět minut";
+"notifications_event_started_body" = "The event has started";
+"notifications_snooze_until_start" = "Snooze until start time";
+"notifications_snooze_for" = "Snooze for %@ min";
+"notifications_meetingbar_join_event_action" = "Join";
 "store_patronage_purchase_cloud_service_revoked_message" = "Uživatel zrušil oprávnění k používání této cloudové služby";
 "store_patronage_purchase_cloud_service_network_connection_failed" = "Nepodařilo se připojit k síti";
 "store_patronage_purchase_cloud_service_permission_denied_message" = "Přístup k informacím o cloudové službě není povolen";
@@ -50,10 +54,10 @@
 // MARK: - Constants
 "shared_send_notification_disabled_tip" = "⚠️ Oznámení pro MeetingBar v macOS jsou vypnuta. Abyste měli přehled o schůzkách, povolte oznámení v předvolbách macOS.";
 "shared_send_notification_no_alert_style_tip" = "⚠️ Styl oznámení pro MeetingBar v macOS není nastaven na Upozornění. Pokud chcete dostávat trvalá oznámení, vyberte styl Upozornění.";
-"shared_send_notification_five_minute_value" = "5 minut předem";
-"shared_send_notification_three_minute_value" = "3 minuty předem";
-"shared_send_notification_one_minute_value" = "1 minutu předem";
-"shared_send_notification_directly_value" = "když schůzka začne";
+"general_five_minute_before" = "5 minut předem";
+"general_three_minute_before" = "3 minuty předem";
+"general_one_minute_before" = "1 minutu předem";
+"general_when_event_starts" = "když schůzka začne";
 
 // MARK: - Shared
 
@@ -64,11 +68,25 @@
 "access_screen_access_denied_checkbox_title" = "a zaškrtněte políčko u položky MeetingBar.";
 "access_screen_access_screen_access_denied_go_to_title" = "Přejděte na";
 "access_screen_access_denied_system_preferences_button" = "Předvolby systému";
+"shared_automatic_event_join_toggle" = "Automatically join next event meeting";
+"shared_automatic_event_join_tip" = "This setting will automatically open your next meeting in your configured app or browser";
 
 // MARK: - Access screen
 
 "access_screen_access_denied_title" = "Vypadá to, že jste zakázali přístup ke kalendářům.";
 "calendars_screen_start_button" = "Začít používat aplikaci";
+
+"access_screen_provider_picker_label" = "Select calendars provider";
+"access_screen_provider_macos_title" = "MacOS Calendar app";
+"access_screen_provider_macos_recomended" = "(recomended)";
+"access_screen_provider_macos_data_source" = "Get data from MacOS Calendar app";
+"access_screen_provider_macos_number_of_accounts" = "Any number of any connected accounts";
+
+"access_screen_provider_gcalendar_data_source" = "Get data directly from Google Calendar";
+"access_screen_provider_gcalendar_number_of_accounts" = "Only one Google account";
+"access_screen_provider_gcalendar_sign_in_title" = "Google Sign In";
+"access_screen_provider_gcalendar_sign_in_description" = "Allow MeetingBar access to your calendar in browser window";
+"access_screen_try_again" = "Try again";
 
 // MARK: - Calendars screen
 
@@ -98,6 +116,7 @@
 "status_bar_quit" = "Ukončit MeetingBar";
 "status_bar_preferences" = "Předvolby";
 "status_bar_whats_new" = "Co je nového?";
+"status_bar_rate_app" = "Rate App";
 "status_bar_hide_meeting_names" = "Skrýt název schůzky";
 "status_bar_show_meeting_names" = "Zobrazit název schůzky";
 "status_bar_quick_actions" = "Rychlé akce";
@@ -138,7 +157,6 @@
 "preferences_advanced_regex_new_cant_save_title" = "Regex nelze uložit";
 "preferences_advanced_regex_new_title" = "Zadejte regex";
 "preferences_advanced_regex_edit_button" = "Upravit";
-"preferences_advanced_regex_delete_button" = "Smazat";
 "preferences_advanced_regex_add_button" = "Přidat regex";
 "preferences_advanced_regex_title" = "Vlastní regexy pro odkaz na schůzku";
 "preferences_advanced_wrong_location_button" = "Mám to!";
@@ -146,6 +164,9 @@
 "preferences_advanced_wrong_location_title" = "Špatné umístění";
 "preferences_advanced_save_script_button" = "Uložit skript";
 "preferences_advanced_apple_script_placeholder" = "# sem napište svůj skript\ntell application \"Music\" to pause";
+"preferences_advanced_run_script_on_event_start" = "Run AppleScript automatically";
+"preferences_advanced_test_script_on_next_event" = "Test on next event";
+"preferences_advanced_edit_script" = "Edit script";
 "preferences_advanced_apple_script_checkmark" = "Spustit AppleScript po připojení ke schůzce";
 "preferences_advanced_event_regex_title" = "Custom regexes to filter out meetings";
 
@@ -154,6 +175,10 @@
 
 "preferences_advanced_setting_warning" = "⚠️ Tato nastavení použijte jen v případě, že rozumíte, k čemu je";
 "preferences_calendars_add_account_modal" = "Pro přidání externích kalendářů:\n1. Otevřete výchozí aplikaci Kalendář\n2. V nabídce klikněte na položku \"Přidat účet\"\n3. Vyberte a připojte svůj účet";
+"preferences_calendars_provider_section_title" = "Calendars provider";
+"preferences_calendars_provider_gcalendar_change_account" = "Change Google Account";
+"preferences_calendars_provider_macos_switch" = "Switch to MacOS Calendar";
+"preferences_calendars_provider_gcalendar_switch" = "Switch to Google Calendar API";
 "preferences_calendars_add_account_button" = "Přidat účet";
 "preferences_calendars_add_account_description" = "Nemůžete najít požadovaný kalendář?";
 
@@ -270,7 +295,7 @@
 "preferences_general_external_contact" = "Kontakt";
 "preferences_general_external_gitHub" = "GitHub";
 "preferences_general_external_patronage" = "Členství";
-"preferences_general_meeting_bar_description" = "MeetingBar je open-source aplikace, kterou vytvořil Andrii Leitsius\nCílem aplikace je usnadnit a zjednodušit práci s online schůzkami";
+"preferences_general_meeting_bar_description" = "MeetingBar je open-source aplikace, kterou vytvořil Andrii Leitsius 🇺🇦\nCílem aplikace je usnadnit a zjednodušit práci s online schůzkami";
 "preferences_general_shortcut_toggle_meeting_name_visibility" = "Přepnout viditelnost nadpisu v řádku nabídek:";
 "preferences_general_shortcut_join_from_clipboard" = "Připojit se ke schůzce ze schránky:";
 "preferences_general_shortcut_join_next" = "Připojit se k nadcházející schůzce:";
@@ -310,3 +335,12 @@
 "general_close" = "Zavřít";
 "general_cancel" = "Zrušit";
 "general_ok" = "OK";
+
+"status_bar_menu_dismiss_curent_meeting" = "Dismiss current meeting";
+"status_bar_menu_dismiss_next_meeting" = "Dismiss next meeting";
+"status_bar_menu_remove_all_dismissals" = "Remove all dismissals";
+"status_bar_event_dismissed_mark" = "dismissed";
+"notification_next_meeting_dismissed_title" = "Dismissed %@";
+"notification_next_meeting_dismissed_message" = "You can remove dismissal from Quick Actions";
+"notification_all_dismissals_removed_title" = "Removed all dismissals";
+"notification_all_dismissals_removed_message" = "All dismissed meetings are back in action";

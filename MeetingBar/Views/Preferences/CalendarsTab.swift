@@ -12,59 +12,90 @@ import SwiftUI
 import Defaults
 
 struct CalendarsTab: View {
-    @State var calendarsBySource: [String: [EKCalendar]] = [:]
+    @State var calendarsBySource: [String: [MBCalendar]] = [:]
     @State var showingAddAcountModal = false
 
+    weak var appDelegate = NSApplication.shared.delegate as! AppDelegate?
+
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+
     @Default(.selectedCalendarIDs) var selectedCalendarIDs
+    @Default(.eventStoreProvider) var eventStoreProvider
 
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
             HStack {
                 Text("preferences_calendars_select_calendars_title".loco())
                 Spacer()
-                Button(action: self.loadCalendarList) {
-                    let image = Image(nsImage: NSImage(named: NSImage.refreshTemplateName)!)
-                    if #available(OSX 11.0, *) {
-                        image.offset(x: 0.0, y: 2.0)
-                    }
-                }
             }
-            VStack(alignment: .leading, spacing: 15) {
+            VStack(spacing: 15) {
                 Form {
-                    Section {
-                        List {
-                            ForEach(Array(calendarsBySource.keys), id: \.self) { source in
-                                Section(header: Text(source)) {
-                                    ForEach(self.calendarsBySource[source]!, id: \.self) { calendar in
-                                        CalendarRow(title: calendar.title, isSelected: self.selectedCalendarIDs.contains(calendar.calendarIdentifier), color: Color(calendar.color)) {
-                                            if self.selectedCalendarIDs.contains(calendar.calendarIdentifier) {
-                                                self.selectedCalendarIDs.removeAll { $0 == calendar.calendarIdentifier }
-                                            } else {
-                                                self.selectedCalendarIDs.append(calendar.calendarIdentifier)
-                                            }
+                    List {
+                        ForEach(Array(self.calendarsBySource.keys), id: \.self) { source in
+                            Section(header: Text(source)) {
+                                ForEach(self.calendarsBySource[source]!, id: \.ID) { calendar in
+                                    CalendarRow(title: calendar.title, isSelected: self.selectedCalendarIDs.contains(calendar.ID), color: Color(calendar.color)) {
+                                        if self.selectedCalendarIDs.contains(calendar.ID) {
+                                            self.selectedCalendarIDs.removeAll { $0 == calendar.ID }
+                                        } else {
+                                            self.selectedCalendarIDs.append(calendar.ID)
                                         }
                                     }
                                 }
                             }
-                        }.listStyle(SidebarListStyle())
-                    }
+                        }
+                    }.listStyle(SidebarListStyle())
                 }
             }.border(Color.gray)
-            HStack {
-                Text("preferences_calendars_add_account_description".loco())
-                Button("preferences_calendars_add_account_button".loco()) { self.showingAddAcountModal.toggle() }
-                    .sheet(isPresented: $showingAddAcountModal) {
-                        AddAccountModal()
+            Divider()
+
+            VStack(alignment: .leading) {
+                HStack {
+                    Text("preferences_calendars_provider_section_title".loco()).font(.headline).bold()
+                }
+                HStack {
+                    if eventStoreProvider == .googleCalendar {
+                        Text("Google Calendar API")
+                        Button("preferences_calendars_provider_gcalendar_change_account".loco()) {
+                            _ = appDelegate!.eventStore.signOut().done {
+                                changeEventStoreProvider(.googleCalendar)
+                            }
+                        }
+                        Spacer()
+
+                        Button("preferences_calendars_provider_macos_switch".loco()) { changeEventStoreProvider(.macOSEventKit) }
+                    } else if eventStoreProvider == .macOSEventKit {
+                        Text("access_screen_provider_macos_title".loco())
+                        Button("preferences_calendars_add_account_button".loco()) { self.showingAddAcountModal.toggle() }
+                            .sheet(isPresented: $showingAddAcountModal) {
+                                AddAccountModal()
+                            }
+                        Spacer()
+                        Button("preferences_calendars_provider_gcalendar_switch".loco()) { changeEventStoreProvider(.googleCalendar) }
                     }
-                Spacer()
+                }.padding(.horizontal, 10)
             }
-        }.onAppear { self.loadCalendarList() }.padding()
+        }.onReceive(timer) { _ in loadCalendarList() }
+            .onDisappear { timer.upstream.connect().cancel() }
+            .padding()
+    }
+
+    func changeEventStoreProvider(_ provider: EventStoreProvider) {
+        selectedCalendarIDs = []
+        appDelegate!.statusBarItem.calendars = []
+        appDelegate!.statusBarItem.events = []
+
+        appDelegate!.setEventStoreProvider(provider: provider)
+
+        _ = appDelegate!.eventStore.signIn().done {
+            DispatchQueue.main.async {
+                appDelegate!.statusBarItem.loadCalendars()
+            }
+        }
     }
 
     func loadCalendarList() {
-        if let app = NSApplication.shared.delegate as! AppDelegate? {
-            calendarsBySource = app.statusBarItem.eventStore.getAllCalendars()
-        }
+        calendarsBySource = Dictionary(grouping: appDelegate!.statusBarItem.calendars) { $0.source }
     }
 }
 

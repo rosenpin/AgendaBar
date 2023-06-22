@@ -13,60 +13,95 @@ import Defaults
 
 struct AccessScreen: View {
     @ObservedObject var viewRouter: ViewRouter
-    @State var accessDenied = false
-    @State var accessToEvents = false
-
-    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    @Default(.eventStoreProvider) var eventStoreProvider
+    @State var providerSelected = false
+    @State var requestFailed = false
 
     var body: some View {
         VStack(alignment: .center) {
-            Spacer()
-            if accessDenied {
-                Text("access_screen_access_denied_title".loco())
-                Spacer()
-                Text("access_screen_access_screen_access_denied_go_to_title".loco())
-                Button("access_screen_access_denied_system_preferences_button".loco(), action: self.openSystemCalendarPreferences)
-                Text("access_screen_access_denied_checkbox_title".loco())
-                Spacer()
-                Text("access_screen_access_denied_relaunch_title".loco())
+            if !providerSelected {
+                Text("access_screen_provider_picker_label".loco()).font(.title).bold().padding(.bottom, 30)
+                HStack(alignment: .top) {
+                    VStack(spacing: 10) {
+                        List {
+                            Section(header:
+                                Text("access_screen_provider_macos_title".loco()).font(.headline)
+                            ) {
+                                Text("access_screen_provider_macos_data_source".loco())
+                                Text("access_screen_provider_macos_number_of_accounts".loco())
+                                Text("access_screen_provider_macos_recomended".loco()).foregroundColor(.gray)
+                            }
+                        }
+                        Spacer()
+                        VStack {
+                            Button(action: { requestAccess(provider: .macOSEventKit) }) {
+                                Text("Use macOS Calendar").font(.headline)
+                            }
+                        }.frame(width: 200, height: 50)
+                    }
+                    VStack(spacing: 10) {
+                        List {
+                            Section(header: Text("Google Calendar API").font(.headline)) {
+                                Text("access_screen_provider_gcalendar_data_source".loco())
+                                Text("access_screen_provider_gcalendar_number_of_accounts".loco())
+                            }
+                        }
+                        Spacer()
+                        VStack {
+                            Button(action: { requestAccess(provider: .googleCalendar) }, label: {
+                                Image("googleSignInButton").resizable().aspectRatio(contentMode: .fit).frame(width: 150)
+                            }).buttonStyle(PlainButtonStyle())
+                        }.frame(width: 200, height: 50)
+                    }
+                }
             } else {
-                Text("access_screen_access_granted_title".loco())
-                Text("")
-                Text("access_screen_access_granted_click_ok_title".loco())
+                Spacer()
+                if eventStoreProvider == .googleCalendar {
+                    VStack(spacing: 20) {
+                        Text("access_screen_provider_gcalendar_sign_in_title".loco()).bold()
+                        Text("access_screen_provider_gcalendar_sign_in_description".loco())
+                        Button("access_screen_try_again".loco()) { requestAccess(provider: .googleCalendar) }
+                    }
+                } else {
+                    if !requestFailed {
+                        Text("access_screen_access_granted_title".loco())
+                        Text("")
+                        Text("access_screen_access_granted_click_ok_title".loco())
+                    } else {
+                        VStack(alignment: .center, spacing: 10) {
+                            HStack {
+                                Text("access_screen_access_screen_access_denied_go_to_title".loco())
+                                Button("access_screen_access_denied_system_preferences_button".loco()) { NSWorkspace.shared.open(Links.calendarPreferences) }
+                                Text("access_screen_access_denied_checkbox_title".loco())
+                            }
+                            Text("access_screen_access_denied_relaunch_title".loco())
+                        }
+                    }
+                }
+                Spacer()
             }
-            Spacer()
         }.padding()
-            .onAppear {
-                self.requestAccess()
-            }
-            .onReceive(timer) { _ in
-                if self.accessDenied {
-                    self.checkAccess()
+    }
+
+    func requestAccess(provider: EventStoreProvider) {
+        providerSelected = true
+
+        Defaults[.eventStoreProvider] = provider
+        if let app = NSApplication.shared.delegate as! AppDelegate? {
+            app.setEventStoreProvider(provider: provider)
+            _ = app.eventStore.signIn()
+                .done {
+                    DispatchQueue.main.async {
+                        Defaults[.onboardingCompleted] = true
+                        app.setup()
+                        app.statusBarItem.loadCalendars()
+
+                        self.viewRouter.currentScreen = .calendars
+                    }
                 }
-            }
-    }
-
-    func requestAccess() {
-        EKEventStore().requestAccess(to: .event) { access, _ in
-            NSLog("EventStore access: \(access)")
-            self.checkAccess()
-            self.accessDenied = !access
-        }
-    }
-
-    func checkAccess() {
-        if EKEventStore.authorizationStatus(for: .event) == .authorized {
-            DispatchQueue.main.async {
-                Defaults[.onboardingCompleted] = true
-                if let app = NSApplication.shared.delegate as! AppDelegate? {
-                    app.setup()
+                .catch { _ in
+                    requestFailed = true
                 }
-                self.viewRouter.currentScreen = .calendars
-            }
         }
-    }
-
-    func openSystemCalendarPreferences() {
-        NSWorkspace.shared.open(Links.calendarPreferences)
     }
 }

@@ -7,60 +7,87 @@
 //
 
 import Defaults
+import LaunchAtLogin
 import SwiftUI
 import UserNotifications
+
+/**
+ * users can decide to automatically open events in the configured application
+ */
+struct AutomaticEventJoinPicker: View {
+    @Default(.automaticEventJoin) var automaticEventJoin
+    @Default(.automaticEventJoinTime) var automaticEventJoinTime
+
+    var body: some View {
+        HStack {
+            Toggle("shared_automatic_event_join_toggle".loco(), isOn: $automaticEventJoin)
+            Picker("", selection: $automaticEventJoinTime) {
+                Text("general_when_event_starts".loco()).tag(AutomaticEventJoinTime.atStart)
+                Text("general_one_minute_before".loco()).tag(AutomaticEventJoinTime.minuteBefore)
+                Text("general_three_minute_before".loco()).tag(AutomaticEventJoinTime.threeMinuteBefore)
+                Text("general_five_minute_before".loco()).tag(AutomaticEventJoinTime.fiveMinuteBefore)
+            }.frame(width: 220, alignment: .leading).labelsHidden().disabled(!automaticEventJoin)
+        }
+
+        if automaticEventJoin {
+            Text("shared_automatic_event_join_tip".loco()).foregroundColor(.gray).font(.system(size: 12))
+        }
+    }
+}
 
 struct JoinEventNotificationPicker: View {
     @Default(.joinEventNotification) var joinEventNotification
     @Default(.joinEventNotificationTime) var joinEventNotificationTime
 
-    func checkNotificationSettings() -> (Bool, Bool) {
-        var noAlertStyle = false
-        var notificationsDisabled = false
-
-        let center = UNUserNotificationCenter.current()
-        let group = DispatchGroup()
-        group.enter()
-
-        center.getNotificationSettings { notificationSettings in
-            noAlertStyle = notificationSettings.alertStyle != UNAlertStyle.alert
-            notificationsDisabled = notificationSettings.authorizationStatus == UNAuthorizationStatus.denied
-            group.leave()
-        }
-
-        group.wait()
-        return (noAlertStyle, notificationsDisabled)
-    }
+    let (noAlertStyle, disabled) = checkNotificationSettings()
 
     var body: some View {
         HStack {
             Toggle("shared_send_notification_toggle".loco(), isOn: $joinEventNotification)
             Picker("", selection: $joinEventNotificationTime) {
-                Text("shared_send_notification_directly_value".loco()).tag(JoinEventNotificationTime.atStart)
-                Text("shared_send_notification_one_minute_value".loco()).tag(JoinEventNotificationTime.minuteBefore)
-                Text("shared_send_notification_three_minute_value".loco()).tag(JoinEventNotificationTime.threeMinuteBefore)
-                Text("shared_send_notification_five_minute_value".loco()).tag(JoinEventNotificationTime.fiveMinuteBefore)
+                Text("general_when_event_starts".loco()).tag(JoinEventNotificationTime.atStart)
+                Text("general_one_minute_before".loco()).tag(JoinEventNotificationTime.minuteBefore)
+                Text("general_three_minute_before".loco()).tag(JoinEventNotificationTime.threeMinuteBefore)
+                Text("general_five_minute_before".loco()).tag(JoinEventNotificationTime.fiveMinuteBefore)
             }.frame(width: 220, alignment: .leading).labelsHidden().disabled(!joinEventNotification)
         }
-        let (noAlertStyle, disabled) = checkNotificationSettings()
 
-        if noAlertStyle && !disabled && joinEventNotification {
-            Text("shared_send_notification_no_alert_style_tip".loco()).foregroundColor(Color.gray).font(.system(size: 12))
+        if noAlertStyle, !disabled, joinEventNotification {
+            Text("shared_send_notification_no_alert_style_tip".loco()).foregroundColor(.gray).font(.system(size: 12))
         }
 
-        if disabled && joinEventNotification {
-            Text("shared_send_notification_disabled_tip".loco()).foregroundColor(Color.gray).font(.system(size: 12))
+        if disabled, joinEventNotification {
+            Text("shared_send_notification_disabled_tip".loco()).foregroundColor(.gray).font(.system(size: 12))
         }
     }
 }
 
+func checkNotificationSettings() -> (Bool, Bool) {
+    var noAlertStyle = false
+    var notificationsDisabled = false
+
+    let center = UNUserNotificationCenter.current()
+    let group = DispatchGroup()
+    group.enter()
+
+    center.getNotificationSettings { notificationSettings in
+        noAlertStyle = notificationSettings.alertStyle != UNAlertStyle.alert
+        notificationsDisabled = notificationSettings.authorizationStatus == UNAuthorizationStatus.denied
+        group.leave()
+    }
+
+    group.wait()
+    return (noAlertStyle, notificationsDisabled)
+}
+
 struct LaunchAtLoginANDPreferredLanguagePicker: View {
-    @Default(.launchAtLogin) var launchAtLogin
     @Default(.preferredLanguage) var preferredLanguage
 
     var body: some View {
         HStack {
-            Toggle("preferences_general_option_login_launch".loco(), isOn: $launchAtLogin)
+            LaunchAtLogin.Toggle {
+                Text("preferences_general_option_login_launch".loco())
+            }
             Spacer()
             Picker("preferences_general_option_preferred_language_title".loco(), selection: $preferredLanguage) {
                 Text("preferences_general_option_preferred_language_system_value".loco()).tag(AppLanguage.system)
@@ -74,11 +101,12 @@ struct LaunchAtLoginANDPreferredLanguagePicker: View {
                         Text("Norks").tag(AppLanguage.norwegian)
                         Text("Čeština").tag(AppLanguage.czech)
                         Text("日本語").tag(AppLanguage.japanese)
-                        Text("Polskie").tag(AppLanguage.polish)
+                        Text("Polski").tag(AppLanguage.polish)
                         Text("עברית‎").tag(AppLanguage.hebrew)
                     }
                     Group {
-                        Text("Русский").tag(AppLanguage.russian)
+                        Text("Türkçe").tag(AppLanguage.turkish)
+                        Text("Italiano").tag(AppLanguage.italian)
                     }
                 }
             }.frame(width: 250)

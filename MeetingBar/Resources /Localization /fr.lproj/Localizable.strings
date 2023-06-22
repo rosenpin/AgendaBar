@@ -1,4 +1,3 @@
-
 "constants_meeting_service_skype4biz_selfhosted" = "Skype For Business (SH)";
 "constants_meeting_service_skype4biz" = "Skype For Business";
 "constants_browser_edge" = "Microsoft Edge";
@@ -25,6 +24,10 @@
 "preferences_advanced_regex_title" = "Expressions régulières personnalisées pour le lien de réunion";
 "preferences_calendars_add_account_modal" = "Pour ajouter des calendriers externes :\n1. Ouvrez l'application calendrier par défaut\n2. Cliquez sur « Ajouter un compte » dans le menu\n3. Choisissez et connectez votre compte";
 "preferences_services_create_meeting_custom_url_placeholder" = "Veuillez entrer une URL valide (avec http:// ou https://)";
+"preferences_calendars_provider_section_title" = "Fournisseur de calendriers";
+"preferences_calendars_provider_gcalendar_change_account" = "Changer de compte Google";
+"preferences_calendars_provider_macos_switch" = "Passer à MacOS Calendar";
+"preferences_calendars_provider_gcalendar_switch" = "Passer à l'API Google Calendar";
 
 // MARK: - Link open
 
@@ -36,6 +39,9 @@
 "notifications_event_start_one_minute_body" = "L'évènement commence dans une minute";
 "notifications_event_start_three_minutes_body" = "L'évènement commence dans trois minutes";
 "notifications_event_start_five_minutes_body" = "L'évènement commence dans cinq minutes";
+"notifications_snooze_until_start" = "Répéter jusqu'à l'heure de début";
+"notifications_snooze_for" = "Répéter dans %@ min";
+"notifications_meetingbar_join_event_action" = "Rejoindre";
 "store_patronage_purchase_cloud_service_revoked_message" = "L'utilisateur a révoqué l'autorisation d'utiliser ce service dans le nuage";
 "store_patronage_purchase_cloud_service_network_connection_failed" = "Impossible de se connecter au réseau";
 "store_patronage_purchase_cloud_service_permission_denied_message" = "L'accès aux informations sur les services en nuage n'est pas autorisé";
@@ -65,10 +71,10 @@
 // MARK: - Constants
 "shared_send_notification_disabled_tip" = "⚠️ Vos paramètres de notification macOS pour MeetingBar sont désactivés. Activez les notifications dans les paramètres système de macOS pour garder une trace des réunions.";
 "shared_send_notification_no_alert_style_tip" = "⚠️ Vos paramètres de notification macOS pour MeetingBar ne sont pas réglés sur alerte. Faites-le si vous voulez des notifications persistantes.";
-"shared_send_notification_five_minute_value" = "5 minutes avant";
-"shared_send_notification_three_minute_value" = "3 minutes avant";
-"shared_send_notification_one_minute_value" = "1 minute avant";
-"shared_send_notification_directly_value" = "quand l'évènement commence";
+"general_five_minute_before" = "5 minutes avant";
+"general_three_minute_before" = "3 minutes avant";
+"general_one_minute_before" = "1 minute avant";
+"general_when_event_starts" = "quand l'évènement commence";
 
 // MARK: - Shared
 
@@ -77,11 +83,23 @@
 "access_screen_access_screen_access_denied_go_to_title" = "Allez dans les";
 "access_screen_access_denied_checkbox_title" = "et sélectionnez une case à cocher près de MeetingBar.";
 "access_screen_access_denied_system_preferences_button" = "Préférences du système";
+"shared_automatic_event_join_toggle" = "Rejoindre automatiquement la réunion de l'évènement suivant";
+"shared_automatic_event_join_tip" = "Ce paramètre permet d'ouvrir automatiquement votre prochaine réunion dans l'application ou le navigateur configuré";
 
 // MARK: - Access screen
 
 "access_screen_access_denied_title" = "Oups ! Il semble que vous ayez refusé l'accès aux calendriers.";
 "calendars_screen_start_button" = "Démarrer l'appli";
+"access_screen_provider_picker_label" = "Sélectionnez le fournisseur de calendriers";
+"access_screen_provider_macos_title" = "Application Calendrier de MacOS";
+"access_screen_provider_macos_recomended" = "(recommandé)";
+"access_screen_provider_macos_data_source" = "Récupérer les données de l'application Calendrier de MacOS";
+"access_screen_provider_macos_number_of_accounts" = "N'importe quel nombre de comptes connectés";
+"access_screen_provider_gcalendar_data_source" = "Obtenez des données directement à partir de Google Agenda";
+"access_screen_provider_gcalendar_number_of_accounts" = "Un seul compte Google";
+"access_screen_provider_gcalendar_sign_in_title" = "Connexion via Google";
+"access_screen_provider_gcalendar_sign_in_description" = "Autoriser MeetingBar à accéder à votre calendrier dans la fenêtre du navigateur";
+"access_screen_try_again" = "Réessayer";
 
 // MARK: - Calendars screen
 
@@ -101,6 +119,7 @@
 "status_bar_quit" = "Quitter MeetingBar";
 "status_bar_preferences" = "Préférences";
 "status_bar_whats_new" = "Quoi de neuf ?";
+"status_bar_rate_app" = "Évaluer l'appli";
 "status_bar_hide_meeting_names" = "Masquer le titre de la réunion";
 "status_bar_show_meeting_names" = "Afficher le titre de la réunion";
 "status_bar_quick_actions" = "Actions rapides";
@@ -139,19 +158,21 @@
 // MARK: - Status bar
 
 "status_bar_section_today" = "Aujourd'hui";
-"preferences_advanced_regex_delete_button" = "x";
 "preferences_advanced_regex_edit_button" = "modifier";
 "preferences_advanced_wrong_location_button" = "Compris !";
 "preferences_advanced_wrong_location_message" = "Veuillez sélectionner le dossier Utilisateur → Bibliothèque → Scripts d'application → leits.MeetingBar";
 "preferences_advanced_wrong_location_title" = "Mauvais emplacement";
 "preferences_advanced_save_script_button" = "Enregistrer le script";
-"preferences_advanced_apple_script_placeholder" = "# écrire votre script ici\ndites à l'application « Musique » de se mettre en pause";
+"preferences_advanced_apple_script_placeholder" = "# écrire votre script ici\ntell application \"Music\" to pause";
+"preferences_advanced_run_script_on_event_start" = "Exécuter AppleScript automatiquement";
+"preferences_advanced_test_script_on_next_event" = "Essayer sur l'évènement suivant";
+"preferences_advanced_edit_script" = "Modifier le script";
 "preferences_advanced_apple_script_checkmark" = "Exécuter AppleScript lors de la participation à une réunion";
 
 // MARK: - Preferences Advanced
 
 "preferences_advanced_setting_warning" = "⚠️ Utilisez ces paramètres uniquement si vous comprenez ce qu'ils font";
-"preferences_calendars_add_account_button" = "Ajouter un compte";
+"preferences_calendars_add_account_button" = "Ajouter un compte de calendrier";
 "preferences_calendars_add_account_description" = "Vous ne trouvez pas le calendrier dont vous avez besoin ?";
 
 // MARK: - Preferences Calendars
@@ -268,7 +289,7 @@
 "preferences_general_external_contact" = "Contact";
 "preferences_general_external_gitHub" = "GitHub";
 "preferences_general_external_patronage" = "Mécénat";
-"preferences_general_meeting_bar_description" = "MeetingBar est une application à code source ouvert créée par Andrii Leitsius.\nPour des réunions en ligne plus faciles et plus fluides";
+"preferences_general_meeting_bar_description" = "MeetingBar est une application à code source ouvert créée par Andrii Leitsius 🇺🇦\nPour des réunions en ligne plus faciles et plus fluides";
 "preferences_general_shortcut_toggle_meeting_name_visibility" = "Basculer la visibilité du titre dans la barre d'état :";
 "preferences_general_shortcut_join_from_clipboard" = "Rejoindre la réunion à partir du presse-papier :";
 "preferences_general_shortcut_join_next" = "Rejoindre la prochaine réunion :";
@@ -308,3 +329,13 @@
 "general_cancel" = "Annuler";
 "general_ok" = "OK";
 "preferences_advanced_event_regex_title" = "Des expressions régulières personnalisées pour filtrer les réunions";
+"status_bar_section_refresh_sources" = "Actualiser les sources";
+"status_bar_menu_dismiss_curent_meeting" = "Rejeter la réunion en cours";
+"status_bar_menu_dismiss_next_meeting" = "Rejeter la prochaine réunion";
+"status_bar_menu_remove_all_dismissals" = "Retirer toutes les annulations";
+"status_bar_event_dismissed_mark" = "rejeté";
+"notification_next_meeting_dismissed_title" = "%@ rejeté(e)";
+"notification_next_meeting_dismissed_message" = "Vous pouvez supprimer le renvoi dans les actions rapides";
+"notification_all_dismissals_removed_title" = "Toutes les annulations ont été retirées";
+"notification_all_dismissals_removed_message" = "Les réunions rejetées sont de nouveau en activité";
+"notifications_event_started_body" = "L'évènement a commencé";

@@ -13,6 +13,8 @@ import Defaults
 struct AdvancedTab: View {
     var body: some View {
         VStack(alignment: .leading) {
+            AutomaticEventJoinPicker()
+            Divider()
             ScriptSection()
             Divider()
             FilterEventRegexesSection()
@@ -29,23 +31,90 @@ struct AdvancedTab: View {
 }
 
 struct ScriptSection: View {
+    @Default(.runEventStartScript) var runEventStartScript
+    @Default(.eventStartScriptLocation) var eventStartScriptLocation
+    @Default(.eventStartScript) var eventStartScript
+    @Default(.eventStartScriptTime) var eventStartScriptTime
+
+    @State private var showingRunEventStartScriptModal = false
+
     @Default(.runJoinEventScript) var runJoinEventScript
+    @Default(.joinEventScriptLocation) var joinEventScriptLocation
     @Default(.joinEventScript) var joinEventScript
 
-    @State private var script = Defaults[.joinEventScript]
+    @State private var showingJoinEventScriptModal = false
+
+    var body: some View {
+        VStack(alignment: .leading) {
+            HStack {
+                Toggle("preferences_advanced_run_script_on_event_start".loco(), isOn: $runEventStartScript)
+                Picker("", selection: $eventStartScriptTime) {
+                    Text("general_when_event_starts".loco()).tag(EventScriptExecutionTime.atStart)
+                    Text("general_one_minute_before".loco()).tag(EventScriptExecutionTime.minuteBefore)
+                    Text("general_three_minute_before".loco()).tag(EventScriptExecutionTime.threeMinuteBefore)
+                    Text("general_five_minute_before".loco()).tag(EventScriptExecutionTime.fiveMinuteBefore)
+                }.frame(width: 150, alignment: .leading).labelsHidden().disabled(!runEventStartScript)
+                Spacer()
+                if runEventStartScript {
+                    Button(action: runSampleScript) {
+                        Text("preferences_advanced_test_script_on_next_event".loco())
+                    }
+                    Button("preferences_advanced_edit_script".loco()) { showingRunEventStartScriptModal = true }
+                }
+            }.sheet(isPresented: $showingRunEventStartScriptModal) {
+                EditScriptModal(script: $eventStartScript, scriptLocation: $eventStartScriptLocation, scriptName: "eventStartScript.scpt")
+            }
+
+            HStack {
+                Toggle("preferences_advanced_apple_script_checkmark".loco(), isOn: $runJoinEventScript)
+                Spacer()
+                if runJoinEventScript {
+                    Button("preferences_advanced_edit_script".loco()) { showingJoinEventScriptModal = true }
+                }
+            }.sheet(isPresented: $showingJoinEventScriptModal) {
+                EditScriptModal(script: $joinEventScript, scriptLocation: $joinEventScriptLocation, scriptName: "joinEventScript.scpt")
+            }
+        }
+    }
+
+    func runSampleScript() {
+        if let app = NSApplication.shared.delegate as! AppDelegate? {
+            runAppleScriptForNextEvent(events: app.statusBarItem.events)
+        }
+    }
+}
+
+struct EditScriptModal: View {
+    @Environment(\.presentationMode) var presentationMode
+
+    @Binding var script: String
+    @Binding var scriptLocation: URL?
+    var scriptName: String
+
+    @State var editedScript: String = ""
+
     @State private var showingAlert = false
 
     var body: some View {
-        HStack {
-            Toggle("preferences_advanced_apple_script_checkmark".loco(), isOn: $runJoinEventScript)
+        VStack {
             Spacer()
-            if script != joinEventScript {
-                Button(action: saveScript) {
-                    Text("preferences_advanced_save_script_button".loco())
+            Text("preferences_advanced_edit_script".loco())
+            Spacer()
+            NSScrollableTextViewWrapper(text: $editedScript).padding(.leading, 19)
+            Spacer()
+            HStack {
+                Button(action: cancel) {
+                    Text("general_cancel".loco())
                 }
+                Spacer()
+                Button(action: saveScript) {
+                    Text("general_save".loco())
+                }.disabled(self.editedScript == self.script)
             }
-        }.frame(height: 15)
-        NSScrollableTextViewWrapper(text: $script).padding(.leading, 19)
+            Spacer()
+        }.padding()
+            .frame(width: 500, height: 500)
+            .onAppear { self.editedScript = self.script }
             .alert(isPresented: $showingAlert) {
                 Alert(title: Text("preferences_advanced_wrong_location_title".loco()),
                       message: Text("preferences_advanced_wrong_location_message".loco()),
@@ -69,17 +138,21 @@ struct ScriptSection: View {
                     showingAlert = true
                     return
                 }
-                Defaults[.joinEventScriptLocation] = openPanel.url
-                if let filepath = openPanel.url?.appendingPathComponent("joinEventScript.scpt") {
+                scriptLocation = openPanel.url
+                if let filepath = openPanel.url?.appendingPathComponent(scriptName) {
                     do {
-                        try script.write(to: filepath, atomically: true, encoding: String.Encoding.utf8)
-                        NSLog("Script saved")
-                        joinEventScript = script
+                        try editedScript.write(to: filepath, atomically: true, encoding: String.Encoding.utf8)
+                        script = editedScript
+                        presentationMode.wrappedValue.dismiss()
                     } catch {}
                 }
             }
             openPanel.close()
         }
+    }
+
+    func cancel() {
+        presentationMode.wrappedValue.dismiss()
     }
 }
 
@@ -156,7 +229,7 @@ struct FilterEventRegexesSection: View {
                         Text(regex)
                         Spacer()
                         Button("preferences_advanced_regex_edit_button".loco()) { openEditRegexModal(regex) }
-                        Button("preferences_advanced_regex_delete_button".loco()) { removeRegex(regex) }
+                        Button("x") { removeRegex(regex) }
                     }
                 }
             }
@@ -204,7 +277,7 @@ struct MeetingRegexesSection: View {
                         Text(regex)
                         Spacer()
                         Button("preferences_advanced_regex_edit_button".loco()) { openEditRegexModal(regex) }
-                        Button("preferences_advanced_regex_delete_button".loco()) { removeRegex(regex) }
+                        Button("x") { removeRegex(regex) }
                     }
                 }
             }

@@ -1,37 +1,76 @@
 //
-//  MeetingBarTests.swift
+//  HelpersTests.swift
 //  MeetingBarTests
 //
-//  Created by Andrii Leitsius on 28.02.2021.
-//  Copyright © 2021 Andrii Leitsius. All rights reserved.
+//  Created by Andrii Leitsius on 10.04.2022.
+//  Copyright © 2022 Andrii Leitsius. All rights reserved.
 //
 
-import EventKit
 import XCTest
 
 @testable import MeetingBar
 
-let meetings = [
-    MeetingLink(service: .zoom, url: URL(string: "https://zoom.us/j/5551112222")!),
-    MeetingLink(service: .zoom_native, url: URL(string: "zoommtg://zoom.us/join?confno=123456789&pwd=xxxx&zc=0&browser=chrome&uname=Betty")!),
-    MeetingLink(service: .around, url: URL(string: "https://meet.around.co/r/kyafvk1b")!),
-    MeetingLink(service: .blackboard_collab, url: URL(string: "https://us.bbcollab.com/guest/C2419D0F68382D351B97376D6B47ABA2")!),
-    MeetingLink(service: .blackboard_collab, url: URL(string: "https://us.bbcollab.com/invite/EFC53F2790E6E50FFCC2AFBC16CC69EE")!),
-    MeetingLink(service: .coscreen, url: URL(string: "https://join.coscreen.co/Eng-Leads/95RyHqtzn7EoQjQ19ju3")!),
-]
-
 class HelpersTests: XCTestCase {
-    func testGetMeetingLink() throws {
-        let store = EKEventStore()
-        let event = EKEvent(eventStore: store)
-        event.calendar = store.defaultCalendarForNewEvents
+    func test_cleanupOutlookSafeLinks_withSafeLink_returnCleanLink() throws {
+        let safeLink = "https://nam12.safelinks.protection.outlook.com/ap/t-59584e83/?url=https%3A%2F%2Fteams.microsoft.com%2Fl%2Fmeetup-join%2F19%253ameeting_[obfuscated]&data=[obfuscated]"
+        let cleanLink = "https://teams.microsoft.com/l/meetup-join/19%3ameeting_[obfuscated]&data=[obfuscated]"
 
-        for meeting in meetings {
-            event.notes = meeting.url.absoluteString
-            let result = getMeetingLink(event)
+        let result = cleanupOutlookSafeLinks(rawText: safeLink)
+        XCTAssertNotNil(result)
+        XCTAssertEqual(result, cleanLink)
+    }
 
-            XCTAssertNotNil(result)
-            XCTAssertEqual(result, meeting)
-        }
+    func test_cleanupOutlookSafeLinks_witoutSafeLink_returnInput() throws {
+        let input = "https://zoom.us/j/5551112222"
+        let result = cleanupOutlookSafeLinks(rawText: input)
+        XCTAssertNotNil(result)
+        XCTAssertEqual(result, input)
+    }
+
+    func test_getMatch_withMatch_returnMatch() throws {
+        let regex = try! NSRegularExpression(pattern: #"[0-9]{2}"#)
+        let result = getMatch(text: "0.11.22.match", regex: regex)
+        XCTAssertNotNil(result)
+        XCTAssertEqual(result, "11")
+    }
+
+    func test_getMatch_withoutMatch_returnNil() throws {
+        let regex = try! NSRegularExpression(pattern: #"[0-9]{2}"#)
+        let result = getMatch(text: "0.1one1.2two2.match", regex: regex)
+        XCTAssertNil(result)
+    }
+
+    func test_cleanUpNotes_inputHTML_returnClean() throws {
+        let rawNotes = "<p>description</p>"
+
+        let result = cleanUpNotes(rawNotes)
+        XCTAssertEqual(result, "description\n")
+    }
+
+    func test_cleanUpNotes_inputMeetDivider_returnClean() throws {
+        let rawNotes = """
+        description
+        ──────────
+        under divider
+        """
+
+        let result = cleanUpNotes(rawNotes)
+        XCTAssertEqual(result, "description")
+    }
+
+    func test_cleanUpNotes_inputZoomDivider_returnClean() throws {
+        let rawNotes = """
+        description
+        -::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-
+        under divider
+        """
+
+        let result = cleanUpNotes(rawNotes)
+        XCTAssertEqual(result, "description\n")
+    }
+
+    func test_hexStringToUIColor() throws {
+        let result = hexStringToUIColor(hex: "#FFFF00")
+        XCTAssertEqual(result, NSColor.yellow)
     }
 }

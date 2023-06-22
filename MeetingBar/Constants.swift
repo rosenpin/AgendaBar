@@ -8,8 +8,11 @@
 
 import Cocoa
 
-var systemDefaultBrowser = Browser(name: "Default Browser", path: "")
+var systemDefaultBrowser = Browser(name: "preferences_services_link_default_browser_value".loco(), path: "")
 var MeetInOneBrowser = Browser(name: "MeetInOne", path: "")
+var ZoomAppBrowser = Browser(name: "preferences_services_link_zoom_value".loco(), path: "")
+var TeamsAppBrowser = Browser(name: "preferences_services_link_teams_value".loco(), path: "")
+var JitsiAppBrowser = Browser(name: "preferences_services_link_jitsi_value".loco(), path: "")
 
 enum statusbarEventTitleLengthLimits {
     static let min = 5
@@ -110,74 +113,7 @@ enum Links {
     static var twitter = URL(string: "https://twitter.com/leits_dev")!
     static var emailMe = URL(string: "mailto:leits.dev@gmail.com?subject=MeetingBar")!
     static var calendarPreferences = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Calendars")!
-}
-
-enum MeetingServices: String, Codable, CaseIterable {
-    case phone = "Phone"
-    case meet = "Google Meet"
-    case hangouts = "Google Hangouts"
-    case zoom = "Zoom"
-    case zoom_native = "Zoom native"
-    case teams = "Microsoft Teams"
-    case webex = "Cisco Webex"
-    case jitsi = "Jitsi"
-    case chime = "Amazon Chime"
-    case ringcentral = "Ring Central"
-    case gotomeeting = "GoToMeeting"
-    case gotowebinar = "GoToWebinar"
-    case bluejeans = "BlueJeans"
-    case eight_x_eight = "8x8"
-    case demio = "Demio"
-    case join_me = "Join.me"
-    case zoomgov = "ZoomGov"
-    case whereby = "Whereby"
-    case uberconference = "Uber Conference"
-    case blizz = "Blizz"
-    case teamviewer_meeting = "Teamviewer Meeting"
-    case vsee = "VSee"
-    case starleaf = "StarLeaf"
-    case duo = "Google Duo"
-    case voov = "Tencent VooV"
-    case facebook_workspace = "Facebook Workspace"
-    case lifesize = "Lifesize"
-    case skype = "Skype"
-    case skype4biz = "Skype For Business"
-    case skype4biz_selfhosted = "Skype For Business (SH)"
-    case facetime = "Facetime"
-    case facetimeaudio = "Facetime Audio"
-    case youtube = "YouTube"
-    case vonageMeetings = "Vonage Meetings"
-    case meetStream = "Google Meet Stream"
-    case around = "Around"
-    case jam = "Jam"
-    case discord = "Discord"
-    case blackboard_collab = "Blackboard Collaborate"
-    case url = "Any Link"
-    case coscreen = "CoScreen"
-    case vowel = "Vowel"
-    case zhumu = "Zhumu"
-    case lark = "Lark"
-    case feishu = "Feishu"
-    case other = "Other"
-
-    var localizedValue: String {
-        switch self {
-        case .phone:
-            return "constants_meeting_service_phone".loco()
-        case .zoom_native:
-            return "constants_meeting_service_zoom_native".loco()
-        case .skype4biz:
-            return "constants_meeting_service_skype4biz".loco()
-        case .skype4biz_selfhosted:
-            return "constants_meeting_service_skype4biz_selfhosted".loco()
-        case .other:
-            return "constants_meeting_service_other".loco()
-        case .url:
-            return "constants_meeting_service_url".loco()
-        default:
-            return rawValue
-        }
-    }
+    static var rateAppInAppStore = URL(string: "itms-apps://apps.apple.com/app/id1532419400?action=write-review")!
 }
 
 enum TimeFormat: String, Codable, CaseIterable {
@@ -185,9 +121,7 @@ enum TimeFormat: String, Codable, CaseIterable {
     case military = "24-hour"
 }
 
-/**
- * the icon to display in the status bar
- */
+/// the icon to display in the status bar
 enum EventTitleIconFormat: String, Codable, CaseIterable {
     case calendar = "iconCalendar"
     case appicon = "AppIcon"
@@ -201,9 +135,7 @@ enum EventTitleFormat: String, Codable, CaseIterable {
     case none
 }
 
-/**
- * format for time in statusbar - can be shown, be under title or be hidden
- */
+/// format for time in statusbar - can be shown, be under title or be hidden
 enum EventTimeFormat: String, Codable, CaseIterable {
     case show
     case show_under_title
@@ -223,13 +155,8 @@ enum AlldayEventsAppereance: String, Codable, CaseIterable {
 }
 
 enum NonAlldayEventsAppereance: String, Codable, CaseIterable {
-    // show all non all day events - no special requirement
     case show
-
-    // deactivates all non all day events when no meeting link is detected
     case show_inactive_without_meeting_link
-
-    // hides all non all day events when no meeting link is detected
     case hide_without_meeting_link
 }
 
@@ -258,20 +185,56 @@ enum JoinEventNotificationTime: Int, Codable {
     case fiveMinuteBefore = 300
 }
 
-enum UtilsRegex {
-    static let emailAddress = try! NSRegularExpression(pattern: #""mailto:(.+@.+)""#)
-    static let outlookSafeLinkRegex = try! NSRegularExpression(pattern: #"https://[\S]+\.safelinks\.protection\.outlook\.com/[\S]+url=([\S]*)"#)
+enum NotificationEventTimeAction: String, Codable {
+    case untilStart = "SNOOZE_UNTIL_START_TIME"
+    case fiveMinuteLater = "SNOOZE_FOR_5_MIN"
+    case tenMinuteLater = "SNOOZE_FOR_10_MIN"
+    case fifteenMinuteLater = "SNOOZE_FOR_15_MIN"
+    case thirtyMinuteLater = "SNOOZE_FOR_30_MIN"
+
+    var durationInSeconds: Int {
+        switch self {
+        case .untilStart:
+            return 0
+        case .fiveMinuteLater:
+            return 300
+        case .tenMinuteLater:
+            return 600
+        case .fifteenMinuteLater:
+            return 900
+        case .thirtyMinuteLater:
+            return 1800
+        }
+    }
+
+    var durationInMins: Int {
+        durationInSeconds / 60
+    }
 }
 
-public enum AutoLauncher {
-    static let bundleIdentifier: String = "leits.MeetingBar.AutoLauncher"
+enum AutomaticEventJoinTime: Int, Codable {
+    case atStart = 5
+    case minuteBefore = 60
+    case threeMinuteBefore = 180
+    case fiveMinuteBefore = 300
+}
+
+enum EventScriptExecutionTime: Int, Codable {
+    case atStart = 5
+    case minuteBefore = 60
+    case threeMinuteBefore = 180
+    case fiveMinuteBefore = 300
+}
+
+enum UtilsRegex {
+    static let outlookSafeLinkRegex = try! NSRegularExpression(pattern: #"https://[\S]+\.safelinks\.protection\.outlook\.com/[\S]+url=([\S]*)"#)
+    static let linkDetection = try! NSRegularExpression(pattern: #"(http|ftp|https)://([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?"#, options: .caseInsensitive)
 }
 
 enum AppLanguage: String, Codable {
     case system = ""
     case english = "en"
     case ukrainian = "ua"
-    case russian = "ru"
     case croatian = "hr"
     case german = "de"
     case french = "fr"
@@ -280,6 +243,8 @@ enum AppLanguage: String, Codable {
     case japanese = "ja"
     case polish = "pl"
     case hebrew = "he"
+    case turkish = "tr"
+    case italian = "it"
 }
 
 struct Browser: Encodable, Decodable, Hashable {
@@ -289,20 +254,31 @@ struct Browser: Encodable, Decodable, Hashable {
     var deletable = true
 }
 
-enum DeprecatedBrowser: String, Codable, CaseIterable {
-    case chrome = "Google Chrome"
-    case firefox = "Firefox"
-    case safari = "Safari"
-    case chromium = "Chromium"
-    case brave = "Brave"
-    case edge = "Microsoft Edge"
-    case opera = "Opera"
-    case vivaldi = "Vivaldi"
-    case defaultBrowser = "Default Browser"
-}
-
 enum WindowTitles {
     static let onboarding = "window_title_onboarding".loco()
     static let preferences = "window_title_preferences".loco()
     static let changelog = "windows_title_changelog".loco()
 }
+
+let eventStartScriptPlaceholder = """
+# the method to be called with the following parameters for the next meeting.
+#
+# 1. parameter - eventId (string) - unique identifier from apples eventkit implementation
+# 2. parameter - title (string) - the title of the event (event title can be null, although it makes no sense!)
+# 3. parameter - allday (bool) - true for allday events, false for non allday events
+# 4. parameter - startDate (date) - needs casting in apple script to output (e.g. startDate as text)
+# 5 .parameter - endDate (date) - needs casting in apple script to output (e.g. startDate as text)
+# 6. parameter - eventLocation (string) - if no location is set, the value will be "EMPTY"
+# 7. parameter - repeatingEvent (bool) - true if it is part of an repeating event, false for single event
+# 8. parameter - attendeeCount (int32) - number of attendees- 0 for events without attendees
+# 9. parameter - meetingUrl (string) - the url to the meeting found in notes, url or location - only one meeting url is supported - if no meeting url is set, the value will be "EMPTY"
+# 10. parameter - meetingService (string), e.g MS Teams or Zoom- if no meeting service is found, the meeting service value is "EMPTY"
+# 11. parameter - meetingNotes (string)- the complete notes of a meeting -  if no notes are set, value "EMPTY" will be used
+
+on meetingStart(eventId, title, allday, startDate, endDate, eventLocation, repeatingEvent, attendeeCount, meetingUrl, meetingService, meetingNotes)
+   tell application "Finder"
+       activate
+       display dialog title buttons {"OK"} default button "OK"
+   end tell
+end meetingStart
+"""

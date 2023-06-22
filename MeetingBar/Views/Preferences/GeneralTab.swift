@@ -12,18 +12,20 @@ import Defaults
 import KeyboardShortcuts
 
 struct GeneralTab: View {
-    @Default(.launchAtLogin) var launchAtLogin
-
     var body: some View {
         VStack(alignment: .leading, spacing: 15) {
-            Spacer()
-            LaunchAtLoginANDPreferredLanguagePicker()
-            Divider()
-            JoinEventNotificationPicker()
-            Divider()
-            ShortcutsSection()
-            Divider()
-            PatronageAppSection()
+            Section {
+                Spacer()
+                LaunchAtLoginANDPreferredLanguagePicker()
+                Divider()
+                JoinEventNotificationPicker()
+                Divider()
+            }
+            Section {
+                ShortcutsSection()
+                Divider()
+                PatronageAppSection()
+            }
         }.padding()
     }
 }
@@ -99,8 +101,6 @@ struct PatronageAppSection: View {
     @State var showingPatronageModal = false
     @State var showingContactModal = false
 
-    @Default(.isInstalledFromAppStore) var isInstalledFromAppStore
-
     var body: some View {
         VStack(alignment: .leading, spacing: 15) {
             VStack(alignment: .center) {
@@ -109,9 +109,7 @@ struct PatronageAppSection: View {
                     VStack(alignment: .center) {
                         Image(nsImage: NSImage(named: "appIconForAbout")!).resizable().frame(width: 120.0, height: 120.0)
                         Text("MeetingBar").font(.system(size: 20)).bold()
-                        if Bundle.main.infoDictionary != nil {
-                            Text("Version \(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "unknown")").foregroundColor(.gray)
-                        }
+                        Text(Defaults[.appVersion]).foregroundColor(.gray)
                     }.lineLimit(1).minimumScaleFactor(0.5).frame(minWidth: 0, maxWidth: .infinity)
                     VStack {
                         Spacer()
@@ -146,7 +144,7 @@ struct PatronageAppSection: View {
     }
 
     func clickPatronage() {
-        if isInstalledFromAppStore {
+        if Defaults[.isInstalledFromAppStore] {
             showingPatronageModal.toggle()
         } else {
             Links.patreon.openInDefaultBrowser()
@@ -156,7 +154,6 @@ struct PatronageAppSection: View {
 
 struct PatronageModal: View {
     @Environment(\.presentationMode) var presentationMode
-    @State var products: [String] = []
 
     @Default(.patronageDuration) var patronageDuration
 
@@ -171,13 +168,13 @@ struct PatronageModal: View {
                 }.frame(width: 120)
                 Spacer()
                 VStack(alignment: .leading) {
-                    Button(action: { purchasePatronage(patronageProducts.threeMonth) }) {
+                    Button(action: { purchasePatronage(PatronageProducts.threeMonth) }) {
                         Text("preferences_general_patron_three_months".loco()).frame(width: 150)
                     }
-                    Button(action: { purchasePatronage(patronageProducts.sixMonth) }) {
+                    Button(action: { purchasePatronage(PatronageProducts.sixMonth) }) {
                         Text("preferences_general_patron_six_months".loco()).frame(width: 150)
                     }
-                    Button(action: { purchasePatronage(patronageProducts.twelveMonth) }) {
+                    Button(action: { purchasePatronage(PatronageProducts.twelveMonth) }) {
                         Text("preferences_general_patron_twelve_months".loco()).frame(width: 150)
                     }
                     Text("preferences_general_patron_description".loco()).font(.system(size: 10))
